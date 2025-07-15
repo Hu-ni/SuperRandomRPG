@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Team_SRRPG.Model
 {
+    [XmlInclude(typeof(ArmorItem))]
+    [XmlInclude(typeof(WeaponItem))]
     public class Item
     {
+        [XmlAttribute("Id")]    //XML의 속성으로 지정.
         public int Id { get;  set; }
         public string Name { get;  set; }
         public string Description { get; set; }
