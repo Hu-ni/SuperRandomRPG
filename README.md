@@ -38,6 +38,7 @@
     - 화면 설계
 <img width="100%" height="auto" src="https://github.com/user-attachments/assets/5d030d3c-0b4e-44e5-aba0-9b7837511873" alt="화면 설계서"/>
     - 문서: https://docs.google.com/spreadsheets/d/1cgAlWxR55fU607h5Bv76AXtlaNRPlqVAgWiaC4BAK1s/edit?gid=215779064#gid=215779064
+
       
   - 모델 정의
     <img width="100%" height="auto" alt="Model 설계 drawio" src="https://github.com/user-attachments/assets/d1a56b30-352e-42b2-a770-aa5a55572246" />
