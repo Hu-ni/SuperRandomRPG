@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace Team_SRRPG.Model
 {
@@ -91,8 +90,14 @@ namespace Team_SRRPG.Model
                     Console.WriteLine("\n...다음 방으로 이동 중...");
                     Thread.Sleep(1000);
 
-                    var monster = GetRandomMonsters(dungeons);
-                    //var survived = Combat(player, monster);
+                    var monsters = GetRandomMonsters(dungeons);
+                    var survived = Combat.CombatPhase(monsters, player);
+                    if (!survived)
+                    {
+                        Console.WriteLine("전투에서 패배했습니다...");
+                        Thread.Sleep(2000);
+                        return;
+                    }
 
                     currentRoom++;
                 }
@@ -137,49 +142,6 @@ namespace Team_SRRPG.Model
             }
             Thread.Sleep(5000);
             return encmosnters;
-        }
-        private static bool CombatPhase(List<Monster> monsters, Player player)
-        {
-            int CurrentHealth = player.Health; //For now
-            while (monsters.Any(m => m.Status.Health > 0) && CurrentHealth > 0)
-            {
-                Console.Clear();
-                Console.WriteLine("========== 전투 ==========");
-                Console.WriteLine($"{player.Name} HP: {CurrentHealth}/{player.Health}\n");
-                Console.WriteLine(">> 적 목록:");
-                for (int i = 0; i < monsters.Count; i++)
-                {
-                    var m = monsters[i];
-                    string status = m.Status.Health > 0
-                        ? $"HP: {m.Status.Health}"
-                        : "(쓰러짐)";
-                    Console.WriteLine($"{i + 1}. {m.Name} - {status}");
-                }
-                Console.WriteLine("\n1. 공격하기");
-                Console.WriteLine("2. 스킬 사용");
-                Console.WriteLine("3. 아이템 사용");
-                Console.WriteLine("4. 도망가기");
-                Console.Write(">> ");
-                string? input = Console.ReadLine();
-                switch (input)
-                {
-                    case "1":
-                        //공격하기 시스템
-                        break;
-                    case "2":
-                        //스킬 사용하기
-                        break;
-                    case "3":
-                        //아이템 사용
-                        break;
-                    case "4":
-                        //도망가기
-                        break;
-                    default:
-                        Console.WriteLine("잘못된 입력입니다.");
-                        break;
-                }
-            }
         }
     }
 }
