@@ -150,9 +150,39 @@ namespace Team_SRRPG.Model
         {
             foreach (var monster in _monsters.Where(m => m.Status.Health > 0))
             {
-                // TODO: implement attacks
+                Console.Clear();
+                Console.WriteLine($"{monster.Name}이(가) 공격합니다!");
+
+                int defenseRoll = RiggedRollByLuck(_player.Luck);
+
+                if (defenseRoll == 20)
+                {
+                    Console.WriteLine($"{_player.Name}이(가) {monster.Name}의 공격을 완벽히 피했습니다!");
+                }
+                else
+                {
+                    int baseDamage = monster.Status.Attack - _player.Status.Defense;
+                    baseDamage = Math.Clamp(baseDamage, 1, 999); 
+                    double damageMultiplier = 1.0 - (defenseRoll / 25.0);
+                    damageMultiplier = Math.Clamp(damageMultiplier, 0.2, 1.0);
+                    int finalDamage = Math.Clamp((int)Math.Round(baseDamage * damageMultiplier),1,999);
+                    _currentHealth -= finalDamage;
+                    if (_currentHealth < 0) _currentHealth = 0;
+
+                    Console.WriteLine($"{monster.Name}이(가) {_player.Name}에게 {finalDamage}의 피해를 입혔습니다!");
+                    Console.WriteLine($"방어 굴림: {defenseRoll} → 최종 피해량 조정됨");
+                    Console.WriteLine($"{_player.Name}의 현재 HP: {_currentHealth}/{_player.Health}");
+                }
+                Thread.Sleep(3000);
+                if (_currentHealth <= 0)
+                {
+                    Console.WriteLine($"{_player.Name}이(가) 쓰러졌습니다...");
+                    Thread.Sleep(2000);
+                    break;
+                }
             }
         }
+
 
         private int RiggedRollByLuck(int luck)
         {
