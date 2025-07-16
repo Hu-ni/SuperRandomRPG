@@ -3,6 +3,7 @@ using SuperRandomRPG.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using Team_SRRPG.Model;
@@ -38,9 +39,13 @@ namespace SuperRandomRPG
         {
             Console.Clear();
 
-            if (playerDataExists)    //세이브 데이터가 없을 경우
-                ; // 플레이어 생성 처리 로직
+            if (playerDataExists == false)    //세이브 데이터가 없을 경우
+            {
+                _player = CharacterCreator.Create();
+                Save();
+            } // 플레이어 생성 처리 로직
 
+            Village();  //마을 가는 로직
 
             while (true)
             {
