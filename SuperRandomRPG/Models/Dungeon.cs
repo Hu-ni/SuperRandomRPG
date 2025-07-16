@@ -7,6 +7,7 @@ namespace Team_SRRPG.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int Level { get; set; }
         public string Description { get; set; }
         public int Difficult { get; set; }
 

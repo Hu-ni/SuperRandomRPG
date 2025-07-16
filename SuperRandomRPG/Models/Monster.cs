@@ -10,6 +10,7 @@ namespace SuperRandomRPG.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int Level { get; set; }
         public Status Status { get; set; }
         public Reward Reward { get; set; }
 
@@ -19,6 +20,7 @@ namespace SuperRandomRPG.Models
             {
                 Id = this.Id,
                 Name = this.Name,
+                Level = this.Level,
                 Status = new Status
                 {
                     Health = this.Status.Health,

@@ -29,9 +29,9 @@ namespace Team_SRRPG.Model
                     Difficult = 1,
                     Monsters = new List<Monster>
                     {
-                        new Monster { Id = 1, Name = "PlaceHolder", Status = new Status { Health = 2, Attack = 2, Defense = 2 }, Reward = new Reward { Exp = 3 , Money = 30}},
-                        new Monster { Id = 2, Name = "PlaceHolder2", Status = new Status { Health = 2, Attack = 2 , Defense = 2 }, Reward = new Reward { Exp = 3 , Money = 3 }},
-                        new Monster { Id = 3, Name = "PlaceHolder3", Status = new Status { Health = 2, Attack = 2, Defense = 3 }, Reward = new Reward { Exp = 3 , Money = 3 }},
+                        new Monster { Id = 1, Name = "PlaceHolder", Level = 2 ,Status = new Status { Health = 2, Attack = 2, Defense = 10 }, Reward = new Reward { Exp = 3 , Money = 30}},
+                        new Monster { Id = 2, Name = "PlaceHolder2", Level = 3,Status = new Status { Health = 2, Attack = 2 , Defense = 10 }, Reward = new Reward { Exp = 3 , Money = 30 }},
+                        new Monster { Id = 3, Name = "PlaceHolder3", Level =3, Status = new Status { Health = 2, Attack = 2, Defense = 10 }, Reward = new Reward { Exp = 3 , Money = 30 }},
                     },
                     Reward = new Reward { Exp = 50, Money = 100 }
                 }
@@ -88,12 +88,20 @@ namespace Team_SRRPG.Model
                     Thread.Sleep(1000);
 
                     var monsters = GetRandomMonsters(dungeon);
-                    var survived = Combat.CombatPhase(monsters, _player);
-                    if (!survived)
+                    var combatManager = new CombatManager(_player, monsters);
+                    CombatResult result = combatManager.StartCombat();
+
+                    if (result == CombatResult.Defeat)
                     {
-                        Console.WriteLine("전투에서 패배했습니다...");
+                        Console.WriteLine("전투에서 패배했습니다... 당신은 죽었습니다.");
+                        Thread.Sleep(2000); // 나중에 저장 데이터 삭제
+                        return; 
+                    }
+                    else if (result == CombatResult.Escaped)
+                    {
+                        Console.WriteLine("당신은 던전 입구로 도망쳤습니다.");
                         Thread.Sleep(2000);
-                        return;
+                        return; // Back to dungeon entrance
                     }
                     currentRoom++;
                 }
@@ -141,7 +149,7 @@ namespace Team_SRRPG.Model
 
             foreach (var m in encounteredMonsters)
             {
-                Console.WriteLine($"이름: {m.Name}");
+                Console.WriteLine($"이름: Lv.{m.Level} {m.Name}");
                 Console.WriteLine($"체력: {m.Status.Health} / 공격력: {m.Status.Attack} / 방어력: {m.Status.Defense}");
                 Console.WriteLine();
             }

@@ -30,6 +30,11 @@ namespace SuperRandomRPG
             {
                 _inventory = new Inventory();
             }
+
+            if (_player != null)
+            {
+                _dungeonManager = new DungeonManager(_player);
+            }
         }
 
         //시작 함수
@@ -42,6 +47,7 @@ namespace SuperRandomRPG
                 // 임시 플레이어 생성
                 Status status = new Status { Health = 100, Attack = 10, Defense = 10 }; //Debug Temporary Stats Delete Later
                 _player = new Player("디버그용", Job.Warrior, status, luck: 10);
+                _dungeonManager = new DungeonManager(_player);
             }// 플레이어 생성 처리 로직
 
 
