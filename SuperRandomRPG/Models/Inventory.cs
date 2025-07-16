@@ -24,8 +24,8 @@ namespace SuperRandomRPG.Models
             Items = new List<Item>();
             {
                 // 초기 아이템 추가 (예시)
-                Items.Add(new Item(1, "Iron Sword", "A basic iron sword.", new Status(10, 0), 100));
-                Items.Add(new Item(2, "Leather Armor", "A basic leather armor.", new Status(0, 5), 80));
+                Items.Add(new Item(1, "Iron Sword", "A basic iron sword.", new Status {Attack = 10}, 100));
+                Items.Add(new Item(2, "Leather Armor", "A basic leather armor.", new Status {Defense = 5}, 80));
             }
         }
 
@@ -55,7 +55,6 @@ namespace SuperRandomRPG.Models
                 {
                     Console.WriteLine("잘못된 입력입니다. 다시 입력해주세요.");
                 }
-
             }
         }
 
