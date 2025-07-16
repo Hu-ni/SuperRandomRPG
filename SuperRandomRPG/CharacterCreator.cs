@@ -3,7 +3,7 @@ using Team_SRRPG.Model;
 
 public static class CharacterCreator
 {
-	public static CharacterCreator()
+    public static Player Create()
 	{
 		Console.WriteLine("캐릭터를 생성합니다");
         Console.WriteLine();
