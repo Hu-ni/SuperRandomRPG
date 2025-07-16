@@ -25,7 +25,6 @@ namespace Team_SRRPG.Model
                 }
                 MonsterTurn(player, monsters, ref currentHealth);
             }
-
             return currentHealth > 0;
         }
 

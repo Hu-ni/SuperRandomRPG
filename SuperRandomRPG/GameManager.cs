@@ -12,7 +12,7 @@ namespace SuperRandomRPG
     public class GameManager
     {
         private Player _player;
-        private List<Dungeon> _dungeons;
+        private DungeonManager _dungeonManager;
         private Inventory _inventory;
 
         private bool playerDataExists = false;
@@ -30,7 +30,6 @@ namespace SuperRandomRPG
             {
                 _inventory = new Inventory();
             }
-            _dungeons = new List<Dungeon>();
         }
 
         //시작 함수
@@ -64,7 +63,7 @@ namespace SuperRandomRPG
                         //4번 화면 생성
                         break;
                     case 5:
-                        Dungeon.DungeonSelectionScreen(_player);
+                        _dungeonManager.ShowDungeonSelectionScene();
                         break;
                 }
 
