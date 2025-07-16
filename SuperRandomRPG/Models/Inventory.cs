@@ -36,17 +36,22 @@ namespace SuperRandomRPG.Models
                     Console.Clear();
                     break;
                 }
+                else if (input > 0 && input <= Items.Count)
+                {
+                    EquipItem(input); // 아이템을 장착하는 메서드 호출
+                }
                 else
                 {
                     Console.WriteLine("잘못된 입력입니다. 다시 입력해주세요.");
                 }
+
             }
         }
 
         //아이템 목록에서 인덱스-1로 아이템을 선택하면 bool값을 true로 바꾼다.
-        public void EquipItem(int index)
+        public void EquipItem(int input)
         {
-            int EquipIndex = int.Parse(Console.ReadLine());
+            int EquipIndex = input;
             if (EquipIndex < 1 || EquipIndex > Items.Count)
             {
                 Console.WriteLine("잘못된 입력입니다. 다시 입력해주세요");
