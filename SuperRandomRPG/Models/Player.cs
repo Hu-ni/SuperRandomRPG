@@ -25,13 +25,13 @@ namespace Team_SRRPG.Model
         public int Mana { get; set; } // 플레이어 마나
         public int Gold { get; set; } // 플레이어 소지 금액
         public int Luck { get; set; } // 플레이어 행운
-        public Player(string name, Job job, int level = 1, int exp = 0, Status status int health = 100, int mana = 50, int gold = 1000, int luck = 0)
+        public Player(string name, Job job, Status status, int level = 1, int exp = 0, int health = 100, int mana = 50, int gold = 1000, int luck = 0)
         {
             Name = name;
             Job = job;
+            Status = status;
             Level = level;
             Experience = exp;
-            Status = status;
             Health = health;
             Mana = mana;
             Gold = gold;

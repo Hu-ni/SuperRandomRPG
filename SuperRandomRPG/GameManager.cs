@@ -23,14 +23,14 @@ namespace SuperRandomRPG
         {
             Random rand = new Random();
 
+            Console.WriteLine("세상은 확률로 돌아간다.");
+            Console.WriteLine("확률을 지배해 던전을 클리어하자.");
+            Console.WriteLine();
+            Console.WriteLine("1.시작하기 (50%)");
+            Console.WriteLine("2.종료하기 (50%)");
+
             while (true)
             {
-                Console.Clear();
-                Console.WriteLine("세상은 확률로 돌아간다.");
-                Console.WriteLine("확률을 지배해 던전을 클리어하자.");
-                Console.WriteLine();
-                Console.WriteLine("1.시작하기 (50%)");
-                Console.WriteLine("2.종료하기 (50%)");
                 string input = Console.ReadLine();
 
                 if (input == "1")
@@ -102,10 +102,10 @@ namespace SuperRandomRPG
             if (playerDataExists == false)    //세이브 데이터가 없을 경우
             {
                 _player = CharacterCreator.Create();
-                Save();
+                //Save();
             } // 플레이어 생성 처리 로직
 
-            Village();  //마을 가는 로직
+            //Village();  //마을 가는 로직
 
             while (true)
             {
@@ -129,7 +129,7 @@ namespace SuperRandomRPG
                         break;
                 }
 
-                Save();     //플레이어 데이터 저장
+                //Save();     //플레이어 데이터 저장
             }
         }
 
