@@ -106,6 +106,7 @@ namespace SuperRandomRPG
             if (playerDataExists == false)    //세이브 데이터가 없을 경우
             {
                 _player = CharacterCreator.Create();
+                _dungeonManager = new DungeonManager(_player);
                 //Save();
             } // 플레이어 생성 처리 로직
 
@@ -131,7 +132,7 @@ namespace SuperRandomRPG
                         // 4번 화면 생성  
                         break;
                     case 5:
-                        // 5번 화면 생성  
+                        _dungeonManager.ShowDungeonSelectionScene();
                         break;
                 }
 
