@@ -21,14 +21,14 @@ namespace SuperRandomRPG
 
         private bool StartMenu()
         {
-            Random bool = new Random();
+            Random rand = new Random();
 
             while (true)
             {
                 Console.Clear();
                 Console.WriteLine("세상은 확률로 돌아간다.");
                 Console.WriteLine("확률을 지배해 던전을 클리어하자.");
-                Console.Clear();
+                Console.WriteLine();
                 Console.WriteLine("1.시작하기 (50%)");
                 Console.WriteLine("2.종료하기 (50%)");
                 string input = Console.ReadLine();
@@ -37,12 +37,14 @@ namespace SuperRandomRPG
                 {
                     if (rand.NextDouble() < 0.5)
                     {
+                        Console.Clear();
                         Console.WriteLine("게임 시작");
                         return true;
                     }
                     else
                     {
-                        Console.WriteLine("시작 실패 게임 종료");
+                        Console.Clear();
+                        Console.WriteLine("시작 실패, 게임 종료");
                         return false;
                     }
                 }
@@ -50,12 +52,14 @@ namespace SuperRandomRPG
                 {
                     if (rand.NextDouble() < 0.5)
                     {
+                        Console.Clear();
                         Console.WriteLine("게임 종료");
                         return false;
                     }
                     else
                     {
-                        Console.WriteLine("종료 실패 게임 시작");
+                        Console.Clear();
+                        Console.WriteLine("종료 실패, 게임 시작");
                         return true;
                     }
                 }
