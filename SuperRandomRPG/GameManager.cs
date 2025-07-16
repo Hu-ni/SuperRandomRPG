@@ -110,23 +110,24 @@ namespace SuperRandomRPG
             while (true)
             {
                 int input = int.Parse(Console.ReadLine());
-                switch(input)
+                switch (input)
                 {
                     case 1:
-                        //1번 화면 생성
-                        Player.OpenStatus(); // 플레이어 상태창 출력
+                        // 1번 화면 생성  
+                        _player.OpenStatus(); // 플레이어 상태창 출력  
                         break;
                     case 2:
-                        //2번 화면 생성
+                        // 2번 화면 생성  
                         break;
                     case 3:
-                        //3번 화면 생성
+                        _inventory.OpenInventory();
+                        // 3번 화면 생성  
                         break;
                     case 4:
-                        //4번 화면 생성
+                        // 4번 화면 생성  
                         break;
                     case 5:
-                        //5번 화면 생성
+                        // 5번 화면 생성  
                         break;
                 }
 
