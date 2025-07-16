@@ -52,7 +52,17 @@ namespace SuperRandomRPG.Models
                 Console.WriteLine("잘못된 입력입니다. 다시 입력해주세요");
                 return;
             }
-            Items[EquipIndex - 1].isEquiped = true; // 아이템을 장착 상태로 변경
+            else
+            {
+                if (Items[EquipIndex - 1].isEquiped)
+                {
+                    Items[EquipIndex - 1].isEquiped = false;
+                }
+                else if(!Items[EquipIndex - 1].isEquiped)
+                {
+                    Items[EquipIndex - 1].isEquiped = true; // 아이템을 장착 상태로 변경
+                }
+            }
         }
     }
 }
