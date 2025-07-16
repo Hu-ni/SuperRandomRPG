@@ -129,7 +129,7 @@ namespace Team_SRRPG.Model
             for (int i = 0; i < count; i++)
             {
                 var selected = dungeon.Monsters[_rng.Next(dungeon.Monsters.Count)];
-                encmosnters.Add(selected);
+                encmosnters.Add(selected.Clone());
             }
             Console.Clear();
             Console.WriteLine($">> {count}마리의 몬스터를 만났습니다!\n");

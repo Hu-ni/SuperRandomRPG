@@ -38,8 +38,12 @@ namespace SuperRandomRPG
         {
             Console.Clear();
 
-            if (playerDataExists)    //세이브 데이터가 없을 경우
-                ; // 플레이어 생성 처리 로직
+            if (!playerDataExists)    //세이브 데이터가 없을 경우
+            {
+                // 임시 플레이어 생성
+                Status status = new Status { Health = 100, Attack = 10, Defense = 10 }; //Debug Temporary Stats Delete Later
+                _player = new Player("디버그용", Job.Warrior, status, luck: 10);
+            }// 플레이어 생성 처리 로직
 
 
             while (true)
@@ -60,7 +64,7 @@ namespace SuperRandomRPG
                         //4번 화면 생성
                         break;
                     case 5:
-                        //5번 화면 생성
+                        Dungeon.DungeonSelectionScreen(_player);
                         break;
                 }
 
