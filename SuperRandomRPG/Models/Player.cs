@@ -32,9 +32,9 @@ namespace Team_SRRPG.Model
         {
             Name = name;
             Job = job;
+            Status = status;
             Level = level;
             Experience = exp;
-            Status = status;
             Health = health;
             Mana = mana;
             Gold = gold;
