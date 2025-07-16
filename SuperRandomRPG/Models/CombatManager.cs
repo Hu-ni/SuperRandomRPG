@@ -73,10 +73,10 @@ namespace Team_SRRPG.Model
                     PlayerAttack();
                     break;
                 case "2":
-                    // TODO
+                    // TODO PlayerSkill();
                     break;
                 case "3":
-                    // TODO
+                    // TODO PlayerItem();
                     break;
                 case "4":
                     bool success = RunAway(_player.Luck);
@@ -106,11 +106,11 @@ namespace Team_SRRPG.Model
                 Monster target = _monsters[choice - 1];
                 int damage = CalculateDamage(_player.Status.Attack, _player.Luck);
                 int totaldamge = Math.Clamp(damage - target.Status.Defense, 1, 999);
-                target.Status.Health -= damage - target.Status.Defense;
+                target.Status.Health -= totaldamge;
 
                 if (target.Status.Health < 0) target.Status.Health = 0;
 
-                Console.WriteLine($"\n{_player.Name}이(가) {target.Name}에게 {damage - target.Status.Defense}의 피해를 입혔습니다!");
+                Console.WriteLine($"\n{_player.Name}이(가) {target.Name}에게 {totaldamge}의 피해를 입혔습니다!");
                 Thread.Sleep(3000);
             }
         }
