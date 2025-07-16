@@ -11,5 +11,6 @@ namespace SuperRandomRPG.Models
         public int Health { get; set; }
         public int Attack { get; set; }
         public int Defense { get; set; }
+        public int Mana { get; set; }
     }
 }
