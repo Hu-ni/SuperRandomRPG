@@ -1,6 +1,7 @@
 
 # SuperRandomRPG
-<img width="100%" height="auto" alt="ChatGPT Image 2025년 7월 14일 오전 11_03_49" src="https://github.com/user-attachments/assets/8ddba0e6-ef78-48b4-8993-7101affc1517" />
+<img width="100%" height="auto" alt="Banner" src="https://github.com/user-attachments/assets/130de3c4-f701-4300-9679-1960e93515f0" />
+
 
 ---
 ## 개요
@@ -28,9 +29,8 @@
 
 ## 설계 
  - 기능 설계:
- - 
-    - 화면 설계:
-    <img width="100%" height="auto" src="https://github.com/user-attachments/assets/5d030d3c-0b4e-44e5-aba0-9b7837511873" alt="화면 설계서"/>
+    - 화면 설계
+<img width="100%" height="auto" src="https://github.com/user-attachments/assets/5d030d3c-0b4e-44e5-aba0-9b7837511873" alt="화면 설계서"/>
     - (url: https://excalidraw.com/#room=f5516f6635feadb10f77,TmV3QRrMnZ_EDyMsAw73nA)
     - 문서: https://docs.google.com/spreadsheets/d/1cgAlWxR55fU607h5Bv76AXtlaNRPlqVAgWiaC4BAK1s/edit?gid=215779064#gid=215779064
 
