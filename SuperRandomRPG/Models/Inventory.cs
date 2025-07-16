@@ -42,5 +42,17 @@ namespace SuperRandomRPG.Models
                 }
             }
         }
+
+        //아이템 목록에서 인덱스-1로 아이템을 선택하면 bool값을 true로 바꾼다.
+        public void EquipItem(int index)
+        {
+            int EquipIndex = int.Parse(Console.ReadLine());
+            if (EquipIndex < 1 || EquipIndex > Items.Count)
+            {
+                Console.WriteLine("잘못된 입력입니다. 다시 입력해주세요");
+                return;
+            }
+            Items[EquipIndex - 1].isEquiped = true; // 아이템을 장착 상태로 변경
+        }
     }
 }
