@@ -20,10 +20,10 @@
 ---
       
 ## 프로젝트 구조
- ├─SuperRandomRPG/Models/
- ├─SuperRandomRPG/Utils/
- ├─SuperRandomRPG/Services/
- └─SuperRandom/GameManager.cs
+ ├─SuperRandomRPG\\Models\\
+ ├─SuperRandomRPG\\Utils\\
+ ├─SuperRandomRPG\\Services\\
+ └─SuperRandom\\GameManager.cs
 
 ---
 
@@ -32,6 +32,8 @@
     - 화면 설계
 <img width="100%" height="auto" src="https://github.com/user-attachments/assets/5d030d3c-0b4e-44e5-aba0-9b7837511873" alt="화면 설계서"/>
     - (url: https://excalidraw.com/#room=f5516f6635feadb10f77,TmV3QRrMnZ_EDyMsAw73nA)
+  
+
     - 문서: https://docs.google.com/spreadsheets/d/1cgAlWxR55fU607h5Bv76AXtlaNRPlqVAgWiaC4BAK1s/edit?gid=215779064#gid=215779064
 
   - 모델 정의
