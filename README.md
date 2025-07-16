@@ -20,10 +20,16 @@
 ---
       
 ## 프로젝트 구조
- ├─SuperRandomRPG\\Models\\
- ├─SuperRandomRPG\\Utils\\
- ├─SuperRandomRPG\\Services\\
- └─SuperRandom\\GameManager.cs
+ ├─SuperRandomRPG/Models/
+
+ 
+ ├─SuperRandomRPG/Utils/
+
+ 
+ ├─SuperRandomRPG/Services/
+
+ 
+ └─SuperRandom/GameManager.cs
 
 ---
 
