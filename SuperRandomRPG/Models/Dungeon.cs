@@ -82,8 +82,7 @@ namespace Team_SRRPG.Model
             {
                 Console.Clear();
                 Console.WriteLine($"[{dungeons.Name}] {currentRoom + 1}/{maxRooms} 방 탐색 중...");
-                Console.WriteLine("1. 다음 방으로 이동");
-                Console.WriteLine("2. 상태 보기");
+                Console.WriteLine("1. 다음 방으로 이동\n2. 아이템 사용하기\n3. 상태보기");
                 Console.Write(">> ");
                 string? input = Console.ReadLine();
 
@@ -92,7 +91,7 @@ namespace Team_SRRPG.Model
                     Console.WriteLine("\n...다음 방으로 이동 중...");
                     Thread.Sleep(1000);
 
-                    var monster = GetRandomMonster(dungeons);
+                    var monster = GetRandomMonsters(dungeons);
                     //var survived = Combat(player, monster);
 
                     currentRoom++;
@@ -117,15 +116,34 @@ namespace Team_SRRPG.Model
             //player.CheckLevelUp();
             Thread.Sleep(2000);
         }
-        private static Monster GetRandomMonster(Dungeon dungeon)
+        private static List<Monster> GetRandomMonsters(Dungeon dungeon)
         {
-            var monster = dungeon.Monsters[_rng.Next(dungeon.Monsters.Count)];
+            int count = _rng.Next(1, 5); //1~4 Monsters
+            var encmosnters = new List<Monster>();
+
+            for (int i = 0; i < count; i++)
+            {
+                var selected = dungeon.Monsters[_rng.Next(dungeon.Monsters.Count)];
+                encmosnters.Add(selected);
+            }
             Console.Clear();
-            Console.WriteLine(">> 몬스터를 만났습니다!");
-            Console.WriteLine($"이름: {monster.Name}");
-            Console.WriteLine($"체력: {monster.Status.Health} / 공격력: {monster.Status.Attack} / 방어력: {monster.Status.Defense}");
-            Thread.Sleep(1000);
-            return monster;
+            Console.WriteLine($">> {count}마리의 몬스터를 만났습니다!\n");
+
+            foreach (var m in encmosnters)
+            {
+                Console.WriteLine($"이름: {m.Name}");
+                Console.WriteLine($"체력: {m.Status.Health} / 공격력: {m.Status.Attack} / 방어력: {m.Status.Defense}");
+                Console.WriteLine();
+            }
+            Thread.Sleep(5000);
+            return encmosnters;
         }
+        // private static bool CombatPhase(List<Monster> monsters, Player player)
+        // {
+        //     while (monsters.Any(m => m.Status.Health > 0) && player.CurrentHealth > 0)
+        //     {
+
+        //     }
+        // }
     }
 }
