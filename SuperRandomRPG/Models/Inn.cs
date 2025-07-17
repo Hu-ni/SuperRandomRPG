@@ -32,7 +32,8 @@ namespace Team_SRRPG.Model
             ⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀
             ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠿⠿⠿⠿⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
-            Console.WriteLine($"{}")
+            Console.WriteLine($"\n\n{player.Name}님의 체력과 마나:\nHP:{player.Health}/{player.Status.Health}");
+            Console.WriteLine($"Mana:{player.Mana}/{player.Status.Mana}");
         }
     }
 }
