@@ -92,7 +92,6 @@ namespace SuperRandomRPG
             {
                 _dungeonManager = new DungeonManager(_player);
             }
-            _dungeons = new List<Dungeon>();
             _shop = new Shop(_inventory);
             
         }
