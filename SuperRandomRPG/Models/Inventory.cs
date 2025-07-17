@@ -18,6 +18,11 @@ namespace SuperRandomRPG.Models
         public Item Find(int id) => Items.FirstOrDefault(x => x.Id == id);
         public List<Item> FindEquiped() => Items.FindAll(x => x.isEquiped);
 
+        public Inventory()
+        {
+            Items = new List<Item>();
+        }
+
         public void OpenInventory()
         {
             Console.WriteLine("인벤토리 창입니다. 0을 눌러 나갈 수 있습니다.");
