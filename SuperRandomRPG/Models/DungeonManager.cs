@@ -33,24 +33,24 @@ namespace Team_SRRPG.Model
                     {
                         new Monster
                         {
-                            Id = 1, Name = "Slime", Level = 1,
-                            BaseHealth = 5, HealthPerLvl = 3,
+                            Id = 1, Name = "근거리 미니언", Level = 1,
+                            BaseHealth = 3, HealthPerLvl = 2,
                             BaseAttack = 1, AttackPerLvl = 1,
-                            BaseDefense = 0, DefensePerLvl = 1
+                            BaseDefense = 1, DefensePerLvl = 0
                         },
                         new Monster
                         {
-                            Id = 2, Name = "Orc", Level = 1,
-                            BaseHealth = 15, HealthPerLvl = 7,
-                            BaseAttack = 5, AttackPerLvl = 3,
-                            BaseDefense = 2, DefensePerLvl = 2
+                            Id = 2, Name = "원거리 미니언", Level = 1,
+                            BaseHealth = 3, HealthPerLvl = 1,
+                            BaseAttack = 2, AttackPerLvl = 2,
+                            BaseDefense = 0, DefensePerLvl = 0
                         },
                         new Monster
                         {
-                            Id = 3, Name = "Goblin", Level = 1,
-                            BaseHealth = 10, HealthPerLvl = 4,
-                            BaseAttack = 4, AttackPerLvl = 2,
-                            BaseDefense = 1, DefensePerLvl = 1
+                            Id = 3, Name = "탱크 미니언", Level = 1,
+                            BaseHealth = 5, HealthPerLvl = 3,
+                            BaseAttack = 3, AttackPerLvl = 2,
+                            BaseDefense = 2, DefensePerLvl = 1
                         }
                     },
                     Reward = new Reward { Exp = 50, Money = 100 }
@@ -150,6 +150,19 @@ namespace Team_SRRPG.Model
             while (currentRoom < maxRooms)
             {
                 Console.Clear();
+                Console.Clear();
+                Console.WriteLine(" __________   __________   __________");
+                Console.WriteLine("|          | |          | |          |");
+
+                for (int i = 0; i < maxRooms; i++)
+                {
+                    if (i == currentRoom)
+                        Console.Write("|    O     |=");
+                    else
+                        Console.Write("|          |=");
+                }
+                Console.WriteLine();
+                Console.WriteLine("|__________|=|__________|=|__________|\n\n");
                 Console.WriteLine($"[{dungeon.Name}] {currentRoom + 1}/{maxRooms} 방 탐색 중...");
                 Console.WriteLine("1. 다음 방으로 이동\n2. 아이템 사용하기\n3. 상태보기");
                 Console.Write(">> ");
@@ -181,7 +194,7 @@ namespace Team_SRRPG.Model
                 else if (input == "2")
                 {
                     Console.Clear();
-                    // _player.ShowItems();
+                    // _player.ShowItems(); Not yet Done
                     Console.ReadLine();
                 }
                 else if (input == "3")
