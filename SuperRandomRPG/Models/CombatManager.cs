@@ -10,16 +10,14 @@ namespace Team_SRRPG.Model
     {
         private readonly Player _player;
         private readonly List<Monster> _monsters;
-        private int _currentHealth; //Temp
         public CombatManager(Player player, List<Monster> monsters)
         {
             _player = player;
             _monsters = monsters;
-            _currentHealth = player.Health; //Temp
         }
         public CombatResult StartCombat()
         {
-            while (_monsters.Any(m => m.Status.Health > 0) && _currentHealth > 0)
+            while (_monsters.Any(m => m.Status.Health > 0) && _player.Health > 0)
             {
                 DisplayCombatStatus();
                 CombatResult? turnResult = PlayerTurn();
@@ -49,7 +47,7 @@ namespace Team_SRRPG.Model
         {
             Console.Clear();
             Console.WriteLine("========== 전투 ==========");
-            Console.WriteLine($"{_player.Name} HP: {_currentHealth}/{_player.Health}\n");
+            Console.WriteLine($"{_player.Name} HP: {_player.Health}/{_player.Status.Health}\n");
 
             Console.WriteLine(">> 적 목록:");
             for (int i = 0; i < _monsters.Count; i++)
@@ -109,7 +107,6 @@ namespace Team_SRRPG.Model
                 target.Status.Health -= totaldamge;
 
                 if (target.Status.Health < 0) target.Status.Health = 0;
-
                 Console.WriteLine($"\n{_player.Name}이(가) {target.Name}에게 {totaldamge}의 피해를 입혔습니다!");
                 Thread.Sleep(3000);
             }
@@ -166,15 +163,14 @@ namespace Team_SRRPG.Model
                     double damageMultiplier = 1.0 - (defenseRoll / 25.0);
                     damageMultiplier = Math.Clamp(damageMultiplier, 0.2, 1.0);
                     int finalDamage = Math.Clamp((int)Math.Round(baseDamage * damageMultiplier),1,999);
-                    _currentHealth -= finalDamage;
-                    if (_currentHealth < 0) _currentHealth = 0;
-
-                    Console.WriteLine($"{monster.Name}이(가) {_player.Name}에게 {finalDamage}의 피해를 입혔습니다!");
+                    _player.Health -= finalDamage;
+                    if (_player.Health < 0) _player.Health = 0;
                     Console.WriteLine($"방어 굴림: {defenseRoll} → 최종 피해량 조정됨");
-                    Console.WriteLine($"{_player.Name}의 현재 HP: {_currentHealth}/{_player.Health}");
+                    Console.WriteLine($"{monster.Name}이(가) {_player.Name}에게 {finalDamage}의 피해를 입혔습니다!");
+                    Console.WriteLine($"{_player.Name}의 현재 HP: {_player.Health}/{_player.Status.Health}");
                 }
                 Thread.Sleep(3000);
-                if (_currentHealth <= 0)
+                if (_player.Health <= 0)
                 {
                     Console.WriteLine($"{_player.Name}이(가) 쓰러졌습니다...");
                     Thread.Sleep(2000);
@@ -189,7 +185,6 @@ namespace Team_SRRPG.Model
             Random rnd = new Random();
             int numRolls = 1 + (luck / 10);
             int maxRoll = 0;
-
             Console.Write("Rolls: ");
             for (int i = 0; i < numRolls; i++)
             {
@@ -221,6 +216,7 @@ namespace Team_SRRPG.Model
             {
                 multiplier = roll / 10.0;
             }
+            Console.WriteLine($"Result : {roll}");
             double finalDamage = baseDamage * multiplier;
             return (int)Math.Round(finalDamage);
         }
