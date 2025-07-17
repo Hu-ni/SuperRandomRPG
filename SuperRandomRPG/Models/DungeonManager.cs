@@ -200,7 +200,7 @@ namespace Team_SRRPG.Model
                 else if (input == "3")
                 {
                     Console.Clear();
-                    _player.OpenStatus();
+                    //_player.OpenStatus();
                     Console.Clear();
                     Console.WriteLine($"[{dungeon.Name}] {currentRoom + 1}/{maxRooms} 방 탐색 중...");
                     Console.WriteLine("1. 다음 방으로 이동\n2. 아이템 사용하기\n3. 상태보기");
