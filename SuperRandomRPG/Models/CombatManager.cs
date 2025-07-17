@@ -18,6 +18,9 @@ namespace Team_SRRPG.Model
         }
         public CombatResult StartCombat()
         {
+            //int originalAttack = _player.Status.Attack; Maybe Needed
+            int originalDefense = _player.Status.Defense;
+            int originalLuck = _player.Luck;
             while (_monsters.Any(m => m.Status.Health > 0) && _player.Health > 0)
             {
                 DisplayCombatStatus();
@@ -182,69 +185,6 @@ namespace Team_SRRPG.Model
                 return false;
             }
         }
-        private void PlayerSkill()
-        {
-            List<Skill> skills = _skillRepo.GetSkillsByJob(_player.Job);
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("사용할 스킬을 선택하세요:");
-
-                for (int i = 0; i < skills.Count; i++)
-                {
-                    var skill = skills[i];
-                    Console.WriteLine($"{i + 1}. {skill.Name} (MP: {skill.ManaCost}) - {skill.Description}");
-                }
-                Console.WriteLine("0. 취소");
-                Console.Write(">> ");
-                string? input = Console.ReadLine();
-
-                if (input == "0")
-                {
-                    Console.WriteLine("스킬 선택을 취소했습니다.");
-                    Thread.Sleep(1000);
-                    break;
-                }
-
-                if (int.TryParse(input, out int index) && index >= 1 && index <= skills.Count)
-                {
-                    Skill selectedSkill = skills[index - 1];
-
-                    if (_player.Mana < selectedSkill.ManaCost)
-                    {
-                        Console.WriteLine("마나가 부족합니다!");
-                        Thread.Sleep(1500);
-                        continue;
-                    }
-
-                    _player.Mana -= selectedSkill.ManaCost;
-
-                    // switch (selectedSkill.Type)
-                    // {
-                    //     case SkillType.Attack:
-                    //         UseAttackSkill(selectedSkill);
-                    //         break;
-                    //     case SkillType.Defense:
-                    //         UseDefenseSkill(selectedSkill);
-                    //         break;
-                    //     case SkillType.Healing:
-                    //         UseHealingSkill(selectedSkill);
-                    //         break;
-                    //     case SkillType.Luck:
-                    //         UseLuckSkill(selectedSkill);
-                    //         break;
-                    // }
-                    // break;
-                }
-                else
-                {
-                    Console.WriteLine("잘못된 입력입니다. 다시 입력하세요.");
-                    Thread.Sleep(1500);
-                }
-            }
-        }
-
-
         private void MonsterTurn()
         {
             foreach (var monster in _monsters.Where(m => m.Status.Health > 0))
@@ -326,6 +266,140 @@ namespace Team_SRRPG.Model
             Console.WriteLine($"Result : {roll}");
             double finalDamage = baseDamage * multiplier;
             return (int)Math.Round(finalDamage);
+        }
+        //From here Player Skills
+        private void PlayerSkill()
+        {
+            List<Skill> skills = _skillRepo.GetSkillsByJob(_player.Job);
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("사용할 스킬을 선택하세요:");
+
+                for (int i = 0; i < skills.Count; i++)
+                {
+                    var skill = skills[i];
+                    Console.WriteLine($"{i + 1}. {skill.Name} (MP: {skill.ManaCost}) - {skill.Description} - Power:{skill.Power}");
+                }
+                Console.WriteLine("0. 취소");
+                Console.Write(">> ");
+                string? input = Console.ReadLine();
+
+                if (input == "0")
+                {
+                    Console.WriteLine("스킬 선택을 취소했습니다.");
+                    Thread.Sleep(1000);
+                    break;
+                }
+
+                if (int.TryParse(input, out int index) && index >= 1 && index <= skills.Count)
+                {
+                    Skill selectedSkill = skills[index - 1];
+
+                    if (_player.Mana < selectedSkill.ManaCost)
+                    {
+                        Console.WriteLine("마나가 부족합니다!");
+                        Thread.Sleep(1500);
+                        continue;
+                    }
+
+                    _player.Mana -= selectedSkill.ManaCost;
+
+                    switch (selectedSkill.Type)
+                    {
+                        case SkillType.Attack:
+                            UseAttackSkill(selectedSkill);
+                            break;
+                        case SkillType.Defense:
+                        case SkillType.Luck:
+                            UseStatBoostSkill(selectedSkill);
+                            break;
+                        case SkillType.Healing:
+                            //UseHealingSkill(selectedSkill);
+                            break;
+                    }
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 입력입니다. 다시 입력하세요.");
+                    Thread.Sleep(1500);
+                }
+            }
+        }
+        private void UseAttackSkill(Skill skill)
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine($"[{skill.Name}] 사용할 대상 몬스터 선택:");
+
+                for (int i = 0; i < _monsters.Count; i++)
+                {
+                    if (_monsters[i].Status.Health > 0)
+                        Console.WriteLine($"{i + 1}. {_monsters[i].Name} (HP: {_monsters[i].Status.Health})");
+                }
+                Console.Write(">> ");
+                string? input = Console.ReadLine();
+
+                if (int.TryParse(input, out int choice) &&
+                    choice >= 1 && choice <= _monsters.Count &&
+                    _monsters[choice - 1].Status.Health > 0)
+                {
+                    Monster target = _monsters[choice - 1];
+                    int baseDamage = skill.Power + (_player.Status.Attack / 2);
+                    Console.Clear();
+                    int damage = CalculateDamage(baseDamage, _player.Luck);
+                    target.Status.Health = Math.Max(target.Status.Health - damage, 0);
+                    Console.WriteLine($"\n{_player.Name}이(가) {skill.Name}을(를) 사용하여 {target.Name}에게 {damage}의 피해를 입혔습니다!");
+                    Thread.Sleep(3000);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 입력입니다. 다시 선택하세요.");
+                    Thread.Sleep(1500);
+                }
+            }
+        }
+        private void UseStatBoostSkill(Skill skill)
+        {
+            Console.Clear();
+            int roll = RiggedRollByLuck(_player.Luck);
+            Random rand = new Random();
+
+            int boostAmount = (int)(skill.Power * (0.8 + rand.NextDouble() * 0.4)); // 80~120%
+
+            if (roll == 20)
+            {
+                boostAmount *= 2;
+                Console.WriteLine("치명적인 강화! 효과 2배!");
+            }
+            else if (roll == 1)
+            {
+                boostAmount = (int)(boostAmount * (0.5 + rand.NextDouble() * 0.5)); // 50~100% of original
+                boostAmount *= -1;
+                Console.WriteLine("스킬이 역효과를 일으켰습니다!");
+            }
+
+            if (skill.Type == SkillType.Defense)
+            {
+                int beforeDefense = _player.Status.Defense;
+                _player.Status.Defense += boostAmount;
+                Console.WriteLine($"{_player.Name}의 방어력이 {Math.Abs(boostAmount)}만큼 {(boostAmount > 0 ? "증가" : "감소")}했습니다!");
+                Console.WriteLine($"{beforeDefense} --> {_player.Status.Defense}");
+            }
+            else if (skill.Type == SkillType.Luck)
+            {
+                _player.Luck += boostAmount;
+                Console.WriteLine($"{_player.Name}의 행운이 {Math.Abs(boostAmount)}만큼 {(boostAmount > 0 ? "증가" : "감소")}했습니다!");
+            }
+
+            Thread.Sleep(3000);
+        }
+        private void UseHealingSkill()
+        {
+
         }
     }
 }
