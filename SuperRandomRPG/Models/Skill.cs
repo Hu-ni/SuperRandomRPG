@@ -13,6 +13,9 @@ namespace SuperRandomRPG.Models
         Defense,
         Healing,
         Luck,
+        AllAttack,
+        WAttack,
+        GAttack
     }
     public class Skill
     {
@@ -30,82 +33,109 @@ namespace SuperRandomRPG.Models
         {
             new Skill
             {
-                Name = "Shield",
-                Description = "A defensive spell that increases the caster's defense.",
+                Name = "방패들기",
+                Description = "방패를 들어 방어력을 높입니다.",
                 ManaCost = 8,
                 Type = SkillType.Defense,
                 Power = 10,
             },
             new Skill
             {
-                Name = "Earthquake",
-                Description = "Causes a tremor that damages all enemies.",
+                Name = "지진",
+                Description = "모든 적에게 피해를 가합니다",
                 ManaCost = 15,
-                Type = SkillType.Attack,
-                Power = 30
+                Type = SkillType.AllAttack,
+                Power = 8
             },
             new Skill
             {
-                Name = "Berserk",
-                Description = "Increases attack power at the cost of defense.",
+                Name = "방패밀치기",
+                Description = "방어력 수치만큼 상대에게 피해를 입힙니다.",
                 ManaCost = 12,
-                Type = SkillType.Attack,
-                Power = 25
+                Type = SkillType.WAttack,
+                Power = 10
             },
         };
         public List<Skill> MageSkill { get; set; } = new List<Skill>
         {
             new Skill
             {
-                Name = "Fireball",
-                Description = "A powerful fire spell that deals damage to a single target.",
+                Name = "파이어볼",
+                Description = "강력한 화염 마법을 상대에게 발사합니다",
                 ManaCost = 20,
                 Type = SkillType.Attack,
-                Power = 40
+                Power = 20
             },
             new Skill
             {
-                Name = "Ice Blast",
-                Description = "A chilling spell that slows down enemies and deals damage.",
+                Name = "아이스 블래스트",
+                Description = "광역 얼음 마법을 시전합니다.",
                 ManaCost = 18,
-                Type = SkillType.Attack,
-                Power = 35
+                Type = SkillType.AllAttack,
+                Power = 10
             },
             new Skill
             {
-                Name = "Heal",
-                Description = "A restorative spell that heals the caster.",
+                Name = "회복",
+                Description = "체력을 회복합니다.",
                 ManaCost = 10,
                 Type = SkillType.Healing,
-                Power = 25
+                Power = 15
             },
         };
         public List<Skill> Archer { get; set; } = new List<Skill>
         {
             new Skill
             {
-                Name = "Arrow Rain",
-                Description = "Fires a barrage of arrows at all enemies.",
+                Name = "화살비",
+                Description = "무수한 화살을 쏘아올립니다.",
                 ManaCost = 20,
-                Type = SkillType.Attack,
-                Power = 30
+                Type = SkillType.AllAttack,
+                Power = 10
             },
             new Skill
             {
-                Name = "Quick Shot",
-                Description = "A rapid shot that deals damage to a single target.",
+                Name = "속사",
+                Description = "빠르게 화살을 발사합니다.",
                 ManaCost = 12,
                 Type = SkillType.Attack,
                 Power = 20
             },
             new Skill
             {
-                Name = "Stealth",
-                Description = "Allows the archer to become invisible for a short time.",
+                Name = "구르기",
+                Description = "민첩하게 움직여서 피해를 최소화합니다.",
                 ManaCost = 15,
-                Type = SkillType.Luck,
-                Power = 10 //행운을 증가시키는 효과
+                Type = SkillType.Defense,
+                Power = 5 //행운을 증가시키는 효과
             },
+        };
+        public List<Skill> Gambler { get; set; } = new List<Skill>
+        { 
+            new Skill
+            {
+                Name = "네잎클로버 발견",
+                Description = "땅바닥에서 행운의 네잎클로버를 발견하셨습니다.",
+                ManaCost = 5,
+                Type = SkillType.Luck,
+                Power = 5
+            },
+            new Skill
+            {
+                Name = "코인어택",
+                Description = "투자한 코인만큼 상대에게 피해를 입힙니다.",
+                ManaCost = 20,
+                Type = SkillType.GAttack,
+                Power = 1
+            },
+            new Skill
+            {
+                Name = "와일드카드",
+                Description = "카드를 사용하여 적에게 피해를 입히거나.",
+                ManaCost = 15,
+                Type = SkillType.Attack,
+                Power = 10
+            }
         };
         Dictionary<string, List<Skill>> skillList = new Dictionary<string, List<Skill>>();
         public SkillRepository()
@@ -113,6 +143,7 @@ namespace SuperRandomRPG.Models
             skillList.Add("Warrior", WarriorSkill);
             skillList.Add("Mage", MageSkill);
             skillList.Add("Archer", Archer);
+            skillList.Add("Gambler", Gambler);
         }
         public List<Skill> GetSkillsByJob(Job job)
         {
@@ -121,6 +152,7 @@ namespace SuperRandomRPG.Models
                 Job.Warrior => WarriorSkill,
                 Job.Mage => MageSkill,
                 Job.Archer => Archer,
+                Job.Gambler => Gambler,
                 _ => new List<Skill>()
             };
         }
