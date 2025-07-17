@@ -27,13 +27,66 @@ namespace Team_SRRPG.Model
                     Name = "칼바람 나락",
                     Description  = "Placeholder",
                     Difficult = 1,
+                    MinMonsterLevel = 1,
+                    MaxMonsterLevel = 5,
                     Monsters = new List<Monster>
                     {
-                        new Monster { Id = 1, Name = "PlaceHolder", Level = 2 ,Status = new Status { Health = 2, Attack = 2, Defense = 10 }, Reward = new Reward { Exp = 3 , Money = 30}},
-                        new Monster { Id = 2, Name = "PlaceHolder2", Level = 3,Status = new Status { Health = 2, Attack = 2 , Defense = 10 }, Reward = new Reward { Exp = 3 , Money = 30 }},
-                        new Monster { Id = 3, Name = "PlaceHolder3", Level =3, Status = new Status { Health = 2, Attack = 2, Defense = 10 }, Reward = new Reward { Exp = 3 , Money = 30 }},
+                        new Monster
+                        {
+                            Id = 1, Name = "근거리 미니언", Level = 1,
+                            BaseHealth = 3, HealthPerLvl = 2,
+                            BaseAttack = 1, AttackPerLvl = 1,
+                            BaseDefense = 1, DefensePerLvl = 0
+                        },
+                        new Monster
+                        {
+                            Id = 2, Name = "원거리 미니언", Level = 1,
+                            BaseHealth = 3, HealthPerLvl = 1,
+                            BaseAttack = 2, AttackPerLvl = 2,
+                            BaseDefense = 0, DefensePerLvl = 0
+                        },
+                        new Monster
+                        {
+                            Id = 3, Name = "탱크 미니언", Level = 1,
+                            BaseHealth = 5, HealthPerLvl = 3,
+                            BaseAttack = 3, AttackPerLvl = 2,
+                            BaseDefense = 2, DefensePerLvl = 1
+                        }
                     },
                     Reward = new Reward { Exp = 50, Money = 100 }
+                },
+                new Dungeon
+                {
+                    Id = 2,
+                    Name = "Testing Dungeon 2",
+                    Description = "Place Holder",
+                    Difficult = 2,
+                    MinMonsterLevel = 5,
+                    MaxMonsterLevel = 20,
+                    Monsters = new List<Monster>
+                    {
+                        new Monster
+                        {
+                            Id = 4, Name = "Slime", Level = 1,
+                            BaseHealth = 5, HealthPerLvl = 3,
+                            BaseAttack = 1, AttackPerLvl = 1,
+                            BaseDefense = 0, DefensePerLvl = 1
+                        },
+                        new Monster
+                        {
+                            Id = 5, Name = "Slime", Level = 1,
+                            BaseHealth = 5, HealthPerLvl = 3,
+                            BaseAttack = 1, AttackPerLvl = 1,
+                            BaseDefense = 0, DefensePerLvl = 1
+                        },
+                        new Monster
+                        {
+                            Id = 6, Name = "Slime", Level = 1,
+                            BaseHealth = 5, HealthPerLvl = 3,
+                            BaseAttack = 1, AttackPerLvl = 1,
+                            BaseDefense = 0, DefensePerLvl = 1
+                        }
+                    }
                 }
             };
         }
@@ -43,6 +96,26 @@ namespace Team_SRRPG.Model
             while (true)
             {
                 Console.Clear();
+                Console.WriteLine(@"
+                 _______  __   __  ___   _  ________ _______  _______  ___   _ 
+                |  _    ||  | |  ||   |_| ||    ___||    ___||   _   ||   |_| |
+                | | |   ||  |_|  ||       ||   | __ |   |___ |  | |  ||       |
+                | |_|   ||       ||  _    ||   ||  ||    ___||  |_|  ||  _    |
+                |       ||       || | |   ||   |_| ||   |___ |       || | |   |
+                |______| |_______||_|  |__||_______||_______||_______||_|  |__|
+                            ⠀⠀⠀⠀⠀⠀⠀⢠⣴⣾⣷⠈⣿⣿⣿⣿⣿⡟⢀⣿⣶⣤⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⢠⣾⣷⡄⠻⣿⣿⣧⠘⣿⣿⣿⡿⠀⣾⣿⣿⠃⣰⣿⣶⣄⠀⠀⠀⠀
+                            ⠀⠀⠀⣴⣿⣿⣿⡿⠆⠉⠉⠁⠀⠈⠉⠉⠁⠀⠙⠛⠃⢰⣿⣿⣿⣿⣷⡀⠀⠀
+                            ⠀⠀⣼⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  ⠉⢿⣿⣿⣿⣷⠀⠀
+                            ⠀⠘⠛⠛⠛⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  ⠻⠛⠛⠛⠃⠀
+                            ⠀⢸⣿⣿⣿⡇⠀⠀⣀⣰⡄⠀⠀⠀⠀⠀⠀⠀⠀  ⢠⣶⣠⠀⠀ ⢰⣾⣿⣿⡇⠀
+                            ⠀⢸⡿⠿⠿⠇⠀⢟⠉⠁⣳⠀⠀⠀⠀⠀⠀⠀⠀ ⣿⠈⠈⡿⠀ ⢸⣿⣿⣿⡇⠀
+                            ⠀⣤⣤⣴⣶⡆⠀⢠⣀⡀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈ ⢀⣤⡀⠀ ⠘⠿⠿⠿⠇⠀
+                            ⠀⣿⣿⣿⣿⣷⠀⢸⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⢿⡇⠀  ⣶⣶⣶⣶⣶⠀
+                            ⠀⣿⣿⣿⣿⣿⠀⠚⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠘⠃⠀ ⣿⣿⣿⣿⣿⠀
+                            ⠀⠛⠛⠛⠛⢛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠙⠛⠛⠋⣁⠀
+                            ⠀⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⣿⣿⣿⣿⣿⠀
+                ");
                 Console.WriteLine("=== 던전 선택 ===");
                 for (int i = 0; i < _dungeons.Count; i++)
                 {
@@ -77,6 +150,19 @@ namespace Team_SRRPG.Model
             while (currentRoom < maxRooms)
             {
                 Console.Clear();
+                Console.Clear();
+                Console.WriteLine(" __________   __________   __________");
+                Console.WriteLine("|          | |          | |          |");
+
+                for (int i = 0; i < maxRooms; i++)
+                {
+                    if (i == currentRoom)
+                        Console.Write("|    O     |=");
+                    else
+                        Console.Write("|          |=");
+                }
+                Console.WriteLine();
+                Console.WriteLine("|__________|=|__________|=|__________|\n\n");
                 Console.WriteLine($"[{dungeon.Name}] {currentRoom + 1}/{maxRooms} 방 탐색 중...");
                 Console.WriteLine("1. 다음 방으로 이동\n2. 아이템 사용하기\n3. 상태보기");
                 Console.Write(">> ");
@@ -94,36 +180,38 @@ namespace Team_SRRPG.Model
                     if (result == CombatResult.Defeat)
                     {
                         Console.WriteLine("전투에서 패배했습니다... 당신은 죽었습니다.");
-                        Thread.Sleep(2000); // 나중에 저장 데이터 삭제
+                        Thread.Sleep(2000);
                         return; 
                     }
                     else if (result == CombatResult.Escaped)
                     {
                         Console.WriteLine("당신은 던전 입구로 도망쳤습니다.");
                         Thread.Sleep(2000);
-                        return; // Back to dungeon entrance
+                        return;
                     }
                     currentRoom++;
                 }
                 else if (input == "2")
                 {
                     Console.Clear();
-                    // _player.ShowItems();
+                    // _player.ShowItems(); Not yet Done
                     Console.ReadLine();
                 }
                 else if (input == "3")
                 {
                     Console.Clear();
-                    // _player.ShowStatus();
-                    Console.ReadLine();
+                    _player.OpenStatus();
+                    Console.Clear();
+                    Console.WriteLine($"[{dungeon.Name}] {currentRoom + 1}/{maxRooms} 방 탐색 중...");
+                    Console.WriteLine("1. 다음 방으로 이동\n2. 아이템 사용하기\n3. 상태보기");
                 }
                 else
                 {
+                    Console.Clear();
                     Console.WriteLine("잘못된 입력입니다.");
                     Thread.Sleep(1000);
                 }
             }
-
             Console.Clear();
             Console.WriteLine($"{dungeon.Name} 클리어!");
             Console.WriteLine($"보상: Gold +{dungeon.Reward.Money}, EXP +{dungeon.Reward.Exp}");
@@ -141,7 +229,23 @@ namespace Team_SRRPG.Model
             for (int i = 0; i < count; i++)
             {
                 var selected = dungeon.Monsters[_rng.Next(dungeon.Monsters.Count)];
-                encounteredMonsters.Add(selected.Clone());
+                var clones = selected.Clone();
+
+                int level = _rng.Next(dungeon.MinMonsterLevel, dungeon.MaxMonsterLevel + 1);
+                clones.Level = level;
+                clones.Status = new Status
+                {
+                    Health = clones.BaseHealth + level * clones.HealthPerLvl,
+                    Attack = clones.BaseAttack + level * clones.AttackPerLvl,
+                    Defense = clones.BaseDefense + level * clones.DefensePerLvl
+                };
+                clones.Reward = new Reward
+                {
+                    Exp = 5 + level * 3,
+                    Money = 10 + level * 5
+                };
+
+                encounteredMonsters.Add(clones);
             }
 
             Console.Clear();
