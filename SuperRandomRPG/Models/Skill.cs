@@ -114,5 +114,15 @@ namespace SuperRandomRPG.Models
             skillList.Add("Mage", MageSkill);
             skillList.Add("Archer", Archer);
         }
+        public List<Skill> GetSkillsByJob(Job job)
+        {
+            return job switch
+            {
+                Job.Warrior => WarriorSkill,
+                Job.Mage => MageSkill,
+                Job.Archer => Archer,
+                _ => new List<Skill>()
+            };
+        }
     }
 }
