@@ -8,8 +8,8 @@ namespace Team_SRRPG.Model
 {
     public class CombatManager
     {
-        private readonly Player _player;
-        private readonly List<Monster> _monsters;
+        private Player _player;
+        private List<Monster> _monsters;
         public CombatManager(Player player, List<Monster> monsters)
         {
             _player = player;
