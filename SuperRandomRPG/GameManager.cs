@@ -17,6 +17,7 @@ namespace SuperRandomRPG
         private DungeonManager _dungeonManager;
         private Inventory _inventory;
         private Shop _shop;
+        private Inn _inn;
 
         private bool playerDataExists = false;
 
@@ -80,7 +81,7 @@ namespace SuperRandomRPG
                 SaveFileDTO dto = XmlSerializerHelper.Deserialize<SaveFileDTO>("\\Data\\Player.xml");    //있을 경우 데이터 가져오기
                 _player = dto.Player;
                 _inventory = dto.Inventory;
-                
+
                 playerDataExists = true;
             }
             else
@@ -93,6 +94,7 @@ namespace SuperRandomRPG
                 _dungeonManager = new DungeonManager(_player);
             }
             _shop = new Shop(_inventory);
+            _inn = new Inn();
             
         }
 
@@ -126,7 +128,7 @@ namespace SuperRandomRPG
                         _player.OpenStatus(); // 플레이어 상태창 출력  
                         break;
                     case 2:
-                        // 2번 화면 생성  
+                        _inn.EnterInn(_player);  
                         break;
                     case 3:
                         _inventory.OpenInventory();
