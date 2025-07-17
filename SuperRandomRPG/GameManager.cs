@@ -123,7 +123,7 @@ namespace SuperRandomRPG
                 {
                     case 1:
                         // 1번 화면 생성  
-                        _player.OpenStatus(); // 플레이어 상태창 출력  
+                        _player.OpenStatus(_inventory); // 플레이어 상태창 출력  
                         break;
                     case 2:
                         // 2번 화면 생성  
