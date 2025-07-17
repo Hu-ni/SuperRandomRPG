@@ -10,6 +10,7 @@ namespace Team_SRRPG.Model
     {
         private Player _player;
         private List<Monster> _monsters;
+        private SkillRepository _skillRepo = new SkillRepository();
         public CombatManager(Player player, List<Monster> monsters)
         {
             _player = player;
@@ -83,10 +84,8 @@ namespace Team_SRRPG.Model
                         PlayerAttack();
                         return null;
                     case "2":
-                        // TODO: Implement PlayerSkill()
-                        Console.WriteLine("스킬은 아직 구현되지 않았습니다.");
-                        Thread.Sleep(1500);
-                        break;
+                        PlayerSkill();
+                        return null;
                     case "3":
                         // TODO: Implement PlayerItem()
                         Console.WriteLine("아이템은 아직 구현되지 않았습니다.");
@@ -181,6 +180,67 @@ namespace Team_SRRPG.Model
                 Console.WriteLine("도망에 실패했습니다!");
                 Thread.Sleep(2000);
                 return false;
+            }
+        }
+        private void PlayerSkill()
+        {
+            List<Skill> skills = _skillRepo.GetSkillsByJob(_player.Job);
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("사용할 스킬을 선택하세요:");
+
+                for (int i = 0; i < skills.Count; i++)
+                {
+                    var skill = skills[i];
+                    Console.WriteLine($"{i + 1}. {skill.Name} (MP: {skill.ManaCost}) - {skill.Description}");
+                }
+                Console.WriteLine("0. 취소");
+                Console.Write(">> ");
+                string? input = Console.ReadLine();
+
+                if (input == "0")
+                {
+                    Console.WriteLine("스킬 선택을 취소했습니다.");
+                    Thread.Sleep(1000);
+                    break;
+                }
+
+                if (int.TryParse(input, out int index) && index >= 1 && index <= skills.Count)
+                {
+                    Skill selectedSkill = skills[index - 1];
+
+                    if (_player.Mana < selectedSkill.ManaCost)
+                    {
+                        Console.WriteLine("마나가 부족합니다!");
+                        Thread.Sleep(1500);
+                        continue;
+                    }
+
+                    _player.Mana -= selectedSkill.ManaCost;
+
+                    // switch (selectedSkill.Type)
+                    // {
+                    //     case SkillType.Attack:
+                    //         UseAttackSkill(selectedSkill);
+                    //         break;
+                    //     case SkillType.Defense:
+                    //         UseDefenseSkill(selectedSkill);
+                    //         break;
+                    //     case SkillType.Healing:
+                    //         UseHealingSkill(selectedSkill);
+                    //         break;
+                    //     case SkillType.Luck:
+                    //         UseLuckSkill(selectedSkill);
+                    //         break;
+                    // }
+                    // break;
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 입력입니다. 다시 입력하세요.");
+                    Thread.Sleep(1500);
+                }
             }
         }
 

@@ -8,9 +8,9 @@ namespace Team_SRRPG.Model
     public class DungeonManager
     {
         private Player _player;
+        private Inventory _inventory;
         private List<Dungeon> _dungeons;
         private static Random _rng = new();
-
         public DungeonManager(Player player)
         {
             _player = player;
@@ -200,7 +200,7 @@ namespace Team_SRRPG.Model
                 else if (input == "3")
                 {
                     Console.Clear();
-                    //_player.OpenStatus();
+                    _player.OpenStatus(_inventory);
                     Console.Clear();
                     Console.WriteLine($"[{dungeon.Name}] {currentRoom + 1}/{maxRooms} 방 탐색 중...");
                     Console.WriteLine("1. 다음 방으로 이동\n2. 아이템 사용하기\n3. 상태보기");
