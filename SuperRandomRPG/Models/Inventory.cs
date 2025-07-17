@@ -26,6 +26,7 @@ namespace SuperRandomRPG.Models
                 // 초기 아이템 추가 (예시)
                 Items.Add(new Item(1, "Iron Sword", "A basic iron sword.", new Status {Attack = 10}, 100));
                 Items.Add(new Item(2, "Leather Armor", "A basic leather armor.", new Status {Defense = 5}, 80));
+                Items.Add(new Item(3, "Healing Potion", "Restores 20 health.", new Status { Health = 20 }, 50));
             }
         }
 
