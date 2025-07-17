@@ -19,5 +19,8 @@ namespace SuperRandomRPG.Models
 
         [XmlElement("Inventory")]
         public Inventory Inventory { get; set; }
+
+        [XmlElement("Shop")]
+        public Inventory Shop { get; set; }
     }
 }
