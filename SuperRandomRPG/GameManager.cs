@@ -19,6 +19,7 @@ namespace SuperRandomRPG
         private DungeonManager _dungeonManager;
         private Inventory _inventory;
         private Shop _shop;
+        private Inn _inn;
         private bool playerDataExists = false;
 
         private bool StartMenu()
@@ -81,7 +82,7 @@ namespace SuperRandomRPG
                 SaveFileDTO dto = XmlSerializerHelper.Deserialize<SaveFileDTO>("\\Data\\Player.xml");    //있을 경우 데이터 가져오기
                 _player = dto.Player;
                 _inventory = dto.Inventory;
-                
+
                 playerDataExists = true;
             }
             else
@@ -93,14 +94,11 @@ namespace SuperRandomRPG
             {
                 _dungeonManager = new DungeonManager(_player);
             }
-            else 
-            {
-                _shop = new Shop(_inventory);
-            }
-            _village = new Village(_player, _inventory, _shop, _dungeonManager);//, _Inn);
-            
-                
-            
+            _shop = new Shop(_inventory);
+            _inn = new Inn();
+            _village = new Village(_player, _inventory, _shop, _dungeonManager,_inn);
+
+
         }
 
         //시작 함수
@@ -127,7 +125,8 @@ namespace SuperRandomRPG
 
             while (true)
             {
-                _village.OpenVillage(_player, _inventory, _shop, _dungeonManager);//, _Inn);; // 마을 출력
+                _village.OpenVillage(_player, _inventory, _shop, _dungeonManager, _inn); // 마을 출력
+                
                 int input = int.Parse(Console.ReadLine());
 
                 switch (input)
@@ -137,8 +136,7 @@ namespace SuperRandomRPG
                         _player.OpenStatus(); // 플레이어 상태창 출력  
                         break;
                     case 2:
-                        _inventory.OpenInventory(_player); //인벤토리 출력
-                        // 2번 화면 생성  
+                        _inventory.OpenInventory(_player);
                         break;
                     case 3:
                         _shop.OpenShop(_player); // Shop 출력
@@ -149,12 +147,13 @@ namespace SuperRandomRPG
                         // 4번 화면 생성  
                         break;
                     case 5:
+                        _inn.EnterInn(_player);
                         // 5번 화면 생성 
                         break;
                     
                 }
 
-                //Save();     //플레이어 데이터 저장
+                Save();     //플레이어 데이터 저장
             }
         }
 

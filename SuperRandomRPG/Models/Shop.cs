@@ -8,12 +8,11 @@ using static System.Formats.Asn1.AsnWriter;
 
 namespace SuperRandomRPG.Models
 {
+
     public class Shop
     {
         private readonly List<Item> ShopItems;
         private Inventory _inventory;
-        
-
 
         public Shop(Inventory inven)
         {
@@ -34,6 +33,7 @@ namespace SuperRandomRPG.Models
                 Status = new Status { Attack = 3,}
 
             };
+
             ShopItems.Add(sword);
 
             Item shield = new Item
@@ -66,8 +66,8 @@ namespace SuperRandomRPG.Models
                 {
                     var item = ShopItems[i];
  
-                    Console.WriteLine($"{i + 1}. {item.Id} - {item.Name}G.{item.Description}.{item.Cost}.{item.Luck} " +
-                        $"(공격력: {item.Status.Attack}, 방어력: {item.Status.Defense},체력: {item.Status.Health})");
+                    Console.WriteLine($"{item.Id}. {item.Name}ㅣ설명: {item.Description} ㅣ 비용: {item.Cost}G ㅣ 행운: {item.Luck} " +
+                         $" \n (공격력: {item.Status.Attack}, 방어력: {item.Status.Defense},체력: {item.Status.Health}) \n");
                 }
 
                 Console.WriteLine("---------------------------------------------------------------------- \n");
@@ -94,31 +94,37 @@ namespace SuperRandomRPG.Models
                             
                             Random random = new Random();
                             bool isSuccess = random.Next(2) == 0;
+
                             
                             // 아이템 구매시 50%확률로 구매완료
                             if (isSuccess)
                             {
                                 _inventory.Items.Add(selected);
-                                Console.WriteLine($"\n성공적으로 '{selected.Name}'을(를) 구매했습니다!");
-                                selected.Name += " (구매완료)"; // 구매 아이템 "구매완료" 표시
+
+                                if (!selected.Name.Contains("구매완료"))
+                                {
+                                    selected.Name += " (구매완료)"; // 구매 아이템 "구매완료" 표시
+                                }
+                                Console.WriteLine($"\n 성공적으로 '{selected.Name}'을(를) 구매했습니다!");
                             }
 
+                            // 아이템 구매시 50%확률로 파손
                             else
                             {
-                                // 아이템 구매시 50%확률로 파손
+                                if (selected.Name.Contains(" (구매완료)"))
+                                {
+                                    selected.Name = selected.Name.Replace(" (구매완료)", "");
+                                }
+
                                 Console.WriteLine($"\n'{selected.Name}'을(를) 구매하는 도중 파손되었습니다! 아이템은 사라졌습니다.");
                             }
 
                             player.Gold -= selected.Cost; // 플레이어 Gold감소
-                            
                         }
                         else
                         {
-                            // 골드 부족 시 몰수
-                            Console.WriteLine($"\n골드가 부족하여 '{selected.Name}'을(를) 강제로 몰수당했습니다!");
-                            player.Gold = 0;
+                            Console.WriteLine("\n 골드가 부족합니다!");
                         }
-
                     }
                     else
                     {
@@ -127,10 +133,10 @@ namespace SuperRandomRPG.Models
                 }
                 else
                 {
-                    Console.WriteLine("\n 숫자를 입력해주세요.");
+                    Console.WriteLine("\n 숫자를 입력해주세요 \n");
                 }
 
-                Console.WriteLine("\n 아무 키나 누르면 계속...");
+                Console.WriteLine("아무 키나 누르면 계속...");
                 Console.ReadKey();
             }
         }
@@ -156,8 +162,8 @@ namespace SuperRandomRPG.Models
                 {
                     var item = _inventory.Items[i];
                     int sellPrice = item.Cost / 2;
-                    Console.WriteLine($"{i + 1}. {item.Name} - {item.Description}.{item.Cost}.{item.Luck} " +
-                        $"(공격력: {item.Status.Attack}, 방어력: {item.Status.Defense},체력: {item.Status.Health})");
+                    Console.WriteLine($"{item.Id}. {item.Name}ㅣ설명: {item.Description} ㅣ 비용: {item.Cost}G ㅣ 행운: {item.Luck} " +
+                         $" \n (공격력: {item.Status.Attack}, 방어력: {item.Status.Defense},체력: {item.Status.Health}) \n");
                 }
 
                 Console.WriteLine("0. 뒤로 가기");
@@ -177,6 +183,7 @@ namespace SuperRandomRPG.Models
                         _inventory.Items.RemoveAt(choice - 1);
                         Console.WriteLine($"\n {selected.Name} {sellPrice}G 판매완료.");
                     }
+
                     else
                     {
                         Console.WriteLine("\n 올바른 번호를 입력하세요.");
