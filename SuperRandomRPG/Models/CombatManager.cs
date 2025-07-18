@@ -18,8 +18,8 @@ namespace Team_SRRPG.Model
         }
         public CombatResult StartCombat()
         {
-            int originalDefense = _player.Status.Defense;
-            int originalLuck = _player.Luck;
+            int originalDefense = _player.TotalDefense;
+            int originalLuck = _player.TotalLuck;
             while (_monsters.Any(m => m.Status.Health > 0) && _player.Health > 0)
             {
                 DisplayCombatStatus();
@@ -103,7 +103,7 @@ namespace Team_SRRPG.Model
                         Thread.Sleep(1500);
                         break;
                     case "4":
-                        bool success = RunAway(_player.Luck);
+                        bool success = RunAway(_player.TotalLuck);
                         return success ? CombatResult.Escaped : null;
                     default:
                         Console.Clear();
@@ -144,7 +144,7 @@ namespace Team_SRRPG.Model
                 {
                     Console.Clear();
                     Monster target = _monsters[choice - 1];
-                    int damage = CalculateDamage(_player.Status.Attack, _player.Luck);
+                    int damage = CalculateDamage(_player.TotalAttack, _player.TotalLuck);
                     int totalDamage = Math.Clamp(damage - target.Status.Defense, 0, 999);
 
                     if (totalDamage <= 0)
@@ -210,7 +210,7 @@ namespace Team_SRRPG.Model
                 Console.Clear();
                 Console.WriteLine($"{monster.Name}이(가) 공격합니다!\n");
 
-                int defenseRoll = RiggedRollByLuck(_player.Luck);
+                int defenseRoll = RiggedRollByLuck(_player.TotalLuck);
 
                 if (defenseRoll == 20)
                 {
@@ -223,7 +223,7 @@ namespace Team_SRRPG.Model
                 }
                 else
                 {
-                    int baseDamage = monster.Status.Attack - _player.Status.Defense;
+                    int baseDamage = monster.Status.Attack - _player.TotalDefense;
                     baseDamage = Math.Clamp(baseDamage, 1, 999);
                     double damageMultiplier = 1.0 - (defenseRoll / 25.0);
                     damageMultiplier = Math.Clamp(damageMultiplier, 0.2, 1.0);
@@ -375,9 +375,9 @@ namespace Team_SRRPG.Model
                     _monsters[choice - 1].Status.Health > 0)
                 {
                     Monster target = _monsters[choice - 1];
-                    int baseDamage = skill.Power + (_player.Status.Attack / 2);
+                    int baseDamage = skill.Power + (_player.TotalAttack / 2);
                     Console.Clear();
-                    int damage = CalculateDamage(baseDamage, _player.Luck);
+                    int damage = CalculateDamage(baseDamage, _player.TotalLuck);
                     target.Status.Health = Math.Max(target.Status.Health - damage, 0);
                     Console.WriteLine($"\n{_player.Name}이(가) {skill.Name}을(를) 사용하여 {target.Name}에게 {damage}의 피해를 입혔습니다!");
                     Thread.Sleep(3000);
@@ -393,7 +393,7 @@ namespace Team_SRRPG.Model
         private void UseStatBoostSkill(Skill skill)
         {
             Console.Clear();
-            int roll = RiggedRollByLuck(_player.Luck);
+            int roll = RiggedRollByLuck(_player.TotalLuck);
             Random rand = new Random();
 
             int boostAmount = (int)(skill.Power * (0.8 + rand.NextDouble() * 0.4)); // 80~120%
@@ -412,14 +412,14 @@ namespace Team_SRRPG.Model
 
             if (skill.Type == SkillType.Defense)
             {
-                int beforeDefense = _player.Status.Defense;
-                _player.Status.Defense += boostAmount;
+                int beforeDefense = _player.TotalDefense;
+                _player.TotalDefense += boostAmount;
                 Console.WriteLine($"{_player.Name}의 방어력이 {Math.Abs(boostAmount)}만큼 {(boostAmount > 0 ? "증가" : "감소")}했습니다!");
-                Console.WriteLine($"{beforeDefense} --> {_player.Status.Defense}");
+                Console.WriteLine($"{beforeDefense} --> {_player.TotalDefense}");
             }
             else if (skill.Type == SkillType.Luck)
             {
-                _player.Luck += boostAmount;
+                _player.TotalLuck += boostAmount;
                 Console.WriteLine($"{_player.Name}의 행운이 {Math.Abs(boostAmount)}만큼 {(boostAmount > 0 ? "증가" : "감소")}했습니다!");
             }
 
@@ -428,7 +428,7 @@ namespace Team_SRRPG.Model
         private void UseHealingSkill(Skill skill)
         {
             Console.Clear();
-            int roll = RiggedRollByLuck(_player.Luck);
+            int roll = RiggedRollByLuck(_player.TotalLuck);
             Random rand = new Random();
 
             int healAmount = (int)(skill.Power * (0.8 + rand.NextDouble() * 0.4));
@@ -459,7 +459,7 @@ namespace Team_SRRPG.Model
             Console.Clear();
             Console.WriteLine($"[{skill.Name}] 스킬을 시전합니다! 모든 적에게 피해를 줍니다...\n");
 
-            int roll = RiggedRollByLuck(_player.Luck);
+            int roll = RiggedRollByLuck(_player.TotalLuck);
             Random rand = new Random();
 
             double multiplier;
@@ -479,7 +479,7 @@ namespace Team_SRRPG.Model
                 multiplier = roll / 10.0;
             }
 
-            int baseDamage = skill.Power + (_player.Status.Attack / 3);
+            int baseDamage = skill.Power + (_player.TotalAttack / 3);
             int finalDamage = (int)Math.Round(baseDamage * multiplier);
 
             foreach (var monster in _monsters.Where(m => m.Status.Health > 0))
@@ -515,7 +515,7 @@ namespace Team_SRRPG.Model
                     Console.Clear();
                     Monster target = _monsters[choice - 1];
 
-                    int roll = RiggedRollByLuck(_player.Luck);
+                    int roll = RiggedRollByLuck(_player.TotalLuck);
                     double multiplier;
 
                     if (roll == 1)
@@ -534,7 +534,7 @@ namespace Team_SRRPG.Model
                         multiplier = roll / 10.0;
                     }
 
-                    int baseDamage = skill.Power + (_player.Status.Defense / 2);
+                    int baseDamage = skill.Power + (_player.TotalDefense / 2);
                     int totalDamage = (int)Math.Round(baseDamage * multiplier);
                     int finalDamage = Math.Clamp(totalDamage - target.Status.Defense, 0, 999);
 
@@ -597,7 +597,7 @@ namespace Team_SRRPG.Model
                     Console.Clear();
                     Console.WriteLine($"골드 {goldInvestment}을(를) 투자하여 {skill.Name} 시전 중...\n");
 
-                    int roll = RiggedRollByLuck(_player.Luck);
+                    int roll = RiggedRollByLuck(_player.TotalLuck);
                     double multiplier;
 
                     if (roll == 1)
