@@ -75,8 +75,7 @@ namespace Team_SRRPG.Model
             {
                 Console.WriteLine("\n1. 공격하기");
                 Console.WriteLine("2. 스킬 사용");
-                Console.WriteLine("3. 아이템 사용");
-                Console.WriteLine("4. 도망가기");
+                Console.WriteLine("3. 도망가기");
                 Console.Write(">> ");
                 string? input = Console.ReadLine();
 
@@ -98,11 +97,6 @@ namespace Team_SRRPG.Model
                             DisplayCombatStatus();
                         continue;
                     case "3":
-                        // TODO: Implement PlayerItem()
-                        Console.WriteLine("아이템은 아직 구현되지 않았습니다.");
-                        Thread.Sleep(1500);
-                        break;
-                    case "4":
                         bool success = RunAway(_player.TotalLuck);
                         return success ? CombatResult.Escaped : null;
                     default:
@@ -413,14 +407,16 @@ namespace Team_SRRPG.Model
             if (skill.Type == SkillType.Defense)
             {
                 int beforeDefense = _player.TotalDefense;
-                _player.TotalDefense += boostAmount;
+                _player.TempDefenseBoost += boostAmount;
                 Console.WriteLine($"{_player.Name}의 방어력이 {Math.Abs(boostAmount)}만큼 {(boostAmount > 0 ? "증가" : "감소")}했습니다!");
                 Console.WriteLine($"{beforeDefense} --> {_player.TotalDefense}");
             }
             else if (skill.Type == SkillType.Luck)
             {
-                _player.TotalLuck += boostAmount;
+                int beforeLuck = _player.Luck;
+                _player.TempLuckBoost += boostAmount;
                 Console.WriteLine($"{_player.Name}의 행운이 {Math.Abs(boostAmount)}만큼 {(boostAmount > 0 ? "증가" : "감소")}했습니다!");
+                Console.WriteLine($"{beforeLuck} --> {_player.Luck}");
             }
 
             Thread.Sleep(3000);
