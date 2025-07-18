@@ -12,15 +12,15 @@ namespace SuperRandomRPG.Models
         private Status _Status;
         private Inventory _inventory;
         private Shop _shop;
-        private Dungeons _dungeons;
+        private DungeonManager _dungeonManager;
         private Inn _inn; // -> 여관 생성되면 추가
 
-        public Village(Status status, Inventory inventory, Shop shop, Dungeon dungeons, Inn inn)
+        public Village(Status status, Inventory inventory, Shop shop, DungeonManager dungeonManager, Inn inn)
         {
             _Status = status;
             _inventory = inventory;
             _shop = shop;
-            _dungeons = dungeons;
+            _dungeonManager = dungeonManager;
             _inn = inn;
         }
 
@@ -47,7 +47,7 @@ namespace SuperRandomRPG.Models
                 {
                    case "1":
                         Console.WriteLine("상태창으로 이동합니다");
-                        _player.OpenStatus();
+                         _Status.OpenStatus(_inventory)();
                         break;
 
                    case "2":
@@ -57,12 +57,12 @@ namespace SuperRandomRPG.Models
 
                    case "3":
                         Console.WriteLine("상점으로 이동합니다");
-                        _shop.OpenShop();
+                        _shop.OpenShop(_player);
                         break;
 
                    case "4":
                         Console.WriteLine("던전으로 이동합니다");
-                        _dungeon.OpenDungeon();
+                        _dungeonManager.ShowDungeonSelectionScene();
                         break;
 
                    case "5":
