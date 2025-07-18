@@ -29,8 +29,15 @@ namespace SuperRandomRPG.Models
             }
         }
 
-        public void OpenInventory()
+
+        public void OpenInventory(Player player)
         {
+            // 호출 시 확률적으로 플레이어의 골드가 10%감소하는 기능 추가
+            if (new Random().Next(1, 11) == 1 && player.Gold > 50) // 10% 확률
+            {
+                Console.WriteLine("어이쿠 손이 미끄러졌네...\n인벤토리를 열다가 골드를 흘렸습니다. - 50 Gold");
+                player.Gold -= 50;
+            }
             Console.WriteLine("인벤토리 창입니다. 0을 눌러 나갈 수 있습니다.");
             Console.WriteLine("아이템 목록:");
             for (int i = 0; i < Items.Count; i++)
