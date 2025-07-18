@@ -8,8 +8,22 @@ public static class CharacterCreator
 	{
 		Console.WriteLine("캐릭터를 생성합니다");
         Console.WriteLine();
-        Console.WriteLine("당신의 이름을 입력하세요");
-        string name = Console.ReadLine();
+
+        string name = "";
+        
+        while (true)
+        {
+            Console.WriteLine("당신의 이름을 입력하세요.");
+            name = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                break;
+            }
+
+            Console.Clear();
+            Console.WriteLine("이름은 반드시 입력해 주세요.");
+        }
 
         Job job;
 
