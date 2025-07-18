@@ -282,8 +282,15 @@ namespace Team_SRRPG.Model
             Console.WriteLine($"보상: Gold +{dungeon.Reward.Money}, EXP +{dungeon.Reward.Exp}");
             _player.Gold += dungeon.Reward.Money;
             _player.Experience += dungeon.Reward.Exp;
-            // _player.CheckLevelUp();
+            CheckLevelUp();
             Thread.Sleep(2000);
+        }
+        private void CheckLevelUp()
+        {
+            if (_player.Experience >= _player.Level * 50)
+            {
+                _player.LevelUp();
+            }
         }
 
         private List<Monster> GetRandomMonsters(Dungeon dungeon)
