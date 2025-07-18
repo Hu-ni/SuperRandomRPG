@@ -48,6 +48,7 @@ namespace Team_SRRPG.Model
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
                 Console.WriteLine($"\n\n{player.Name}님의 체력과 마나:\nHP:{player.Health}/{player.Status.Health}");
                 Console.WriteLine($"Mana:{player.Mana}/{player.Status.Mana}");
+                Console.WriteLine($"현재 골드: {player.Gold}");
                 Console.WriteLine($"무엇을 하시겠습니까?\n\n");
                 Console.WriteLine("1.휴식하기 (500G)\n2.도박하기\n\n0.나가기");
                 Console.WriteLine(">>");
