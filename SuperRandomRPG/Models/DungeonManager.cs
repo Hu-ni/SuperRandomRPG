@@ -25,7 +25,7 @@ namespace Team_SRRPG.Model
                 {
                     Id = 1,
                     Name = "칼바람 나락",
-                    Description  = "Placeholder",
+                    Description  = "너무나도 익숙한 곳...",
                     Difficult = 1,
                     MinMonsterLevel = 1,
                     MaxMonsterLevel = 5,
@@ -34,23 +34,26 @@ namespace Team_SRRPG.Model
                         new Monster
                         {
                             Id = 1, Name = "근거리 미니언", Level = 1,
-                            BaseHealth = 3, HealthPerLvl = 2,
-                            BaseAttack = 1, AttackPerLvl = 1,
-                            BaseDefense = 1, DefensePerLvl = 0
+                            BaseHealth = 12, HealthPerLvl = 5,
+                            BaseAttack = 6, AttackPerLvl = 2,
+                            BaseDefense = 4, DefensePerLvl = 1,
+                            Reward = new Reward{ Exp = 10, Money = 15 }
                         },
                         new Monster
                         {
                             Id = 2, Name = "원거리 미니언", Level = 1,
-                            BaseHealth = 3, HealthPerLvl = 1,
-                            BaseAttack = 2, AttackPerLvl = 2,
-                            BaseDefense = 0, DefensePerLvl = 0
+                            BaseHealth = 10, HealthPerLvl = 4,
+                            BaseAttack = 8, AttackPerLvl = 3,
+                            BaseDefense = 2, DefensePerLvl = 0,
+                            Reward = new Reward { Exp = 10, Money = 15 }
                         },
                         new Monster
                         {
                             Id = 3, Name = "탱크 미니언", Level = 1,
-                            BaseHealth = 5, HealthPerLvl = 3,
-                            BaseAttack = 3, AttackPerLvl = 2,
-                            BaseDefense = 2, DefensePerLvl = 1
+                            BaseHealth = 15, HealthPerLvl = 6,
+                            BaseAttack = 7, AttackPerLvl = 2,
+                            BaseDefense = 6, DefensePerLvl = 2,
+                            Reward = new Reward {Exp = 15, Money = 20 }
                         }
                     },
                     Reward = new Reward { Exp = 50, Money = 100 }
@@ -58,33 +61,88 @@ namespace Team_SRRPG.Model
                 new Dungeon
                 {
                     Id = 2,
-                    Name = "Testing Dungeon 2",
-                    Description = "Place Holder",
+                    Name = "카지노 (라스베가스)",
+                    Description = "돈! 돈!! 돈!!!",
                     Difficult = 2,
                     MinMonsterLevel = 5,
-                    MaxMonsterLevel = 20,
+                    MaxMonsterLevel = 15,
                     Monsters = new List<Monster>
                     {
                         new Monster
                         {
-                            Id = 4, Name = "Slime", Level = 1,
-                            BaseHealth = 5, HealthPerLvl = 3,
-                            BaseAttack = 1, AttackPerLvl = 1,
-                            BaseDefense = 0, DefensePerLvl = 1
+                            Id = 4, Name = "킹 오브 하트", Level = 1,
+                            BaseHealth = 20, HealthPerLvl = 6,
+                            BaseAttack = 6, AttackPerLvl = 2,
+                            BaseDefense = 3, DefensePerLvl = 1,
+                            Reward = new Reward{ Exp = 20, Money = 50 }
                         },
                         new Monster
                         {
-                            Id = 5, Name = "Slime", Level = 1,
-                            BaseHealth = 5, HealthPerLvl = 3,
-                            BaseAttack = 1, AttackPerLvl = 1,
-                            BaseDefense = 0, DefensePerLvl = 1
+                            Id = 5, Name = "에이스", Level = 1,
+                            BaseHealth = 30, HealthPerLvl = 3,
+                            BaseAttack = 10, AttackPerLvl = 2,
+                            BaseDefense = 2, DefensePerLvl = 1,
+                            Reward = new Reward{ Exp = 20, Money = 25 }
                         },
                         new Monster
                         {
-                            Id = 6, Name = "Slime", Level = 1,
-                            BaseHealth = 5, HealthPerLvl = 3,
-                            BaseAttack = 1, AttackPerLvl = 1,
-                            BaseDefense = 0, DefensePerLvl = 1
+                            Id = 6, Name = "조커", Level = 1,
+                            BaseHealth = 30, HealthPerLvl = 5,
+                            BaseAttack = 11, AttackPerLvl = 3,
+                            BaseDefense = 5, DefensePerLvl = 2,
+                            Reward = new Reward{ Exp = 50, Money = 20 }
+                        }
+                    }
+                },
+                new Dungeon
+                {
+                    Id = 3,
+                    Name = "내일배움 캠프 (수직적 구조)",
+                    Description = "와 프로젝트 만든 사람들이다",
+                    Difficult = 3,
+                    MinMonsterLevel = 10,
+                    MaxMonsterLevel = 30,
+                    Monsters = new List<Monster>
+                    {
+                        new Monster
+                        {
+                            Id = 4, Name = "박훈", Level = 1,
+                            BaseHealth = 30, HealthPerLvl = 10,
+                            BaseAttack = 15, AttackPerLvl = 3,
+                            BaseDefense = 15, DefensePerLvl = 3,
+                            Reward = new Reward{ Exp = 100, Money = 200 }
+                        },
+                        new Monster
+                        {
+                            Id = 5, Name = "김영수", Level = 1,
+                            BaseHealth = 30, HealthPerLvl = 10,
+                            BaseAttack = 15, AttackPerLvl = 3,
+                            BaseDefense = 15, DefensePerLvl = 3,
+                            Reward = new Reward{ Exp = 100, Money = 200 }
+                        },
+                        new Monster
+                        {
+                            Id = 6, Name = "성준우", Level = 1,
+                            BaseHealth = 30, HealthPerLvl = 10,
+                            BaseAttack = 15, AttackPerLvl = 3,
+                            BaseDefense = 15, DefensePerLvl = 3,
+                            Reward = new Reward{ Exp = 100, Money = 200 }
+                        },
+                        new Monster
+                        {
+                            Id = 6, Name = "김상균", Level = 1,
+                            BaseHealth = 30, HealthPerLvl = 10,
+                            BaseAttack = 15, AttackPerLvl = 3,
+                            BaseDefense = 15, DefensePerLvl = 3,
+                            Reward = new Reward{ Exp = 100, Money = 200 }
+                        },
+                        new Monster
+                        {
+                            Id = 6, Name = "임성준", Level = 1,
+                            BaseHealth = 30, HealthPerLvl = 10,
+                            BaseAttack = 15, AttackPerLvl = 3,
+                            BaseDefense = 15, DefensePerLvl = 3,
+                            Reward = new Reward{ Exp = 100, Money = 200 }
                         }
                     }
                 }
