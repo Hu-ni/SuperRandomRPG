@@ -3,6 +3,7 @@ using SuperRandomRPG.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Channels;
@@ -14,11 +15,10 @@ namespace SuperRandomRPG
     public class GameManager
     {
         private Player _player;
+        private Village _village;
         private DungeonManager _dungeonManager;
         private Inventory _inventory;
         private Shop _shop;
-        private Inn _inn;
-
         private bool playerDataExists = false;
 
         private bool StartMenu()
@@ -94,7 +94,6 @@ namespace SuperRandomRPG
                 _dungeonManager = new DungeonManager(_player);
             }
             _shop = new Shop(_inventory);
-            _inn = new Inn();
             
         }
 
@@ -118,9 +117,13 @@ namespace SuperRandomRPG
 
             //Village();  //마을 가는 로직
 
+           
+
             while (true)
             {
+                _village.OpenVillage(_player, _inventory, _shop, _dungeonManager);//, _Inn);; // 마을 출력
                 int input = int.Parse(Console.ReadLine());
+
                 switch (input)
                 {
                     case 1:
@@ -128,18 +131,18 @@ namespace SuperRandomRPG
                         _player.OpenStatus(); // 플레이어 상태창 출력  
                         break;
                     case 2:
-                        _inn.EnterInn(_player);  
+                        // 2번 화면 생성  
                         break;
                     case 3:
-                        _inventory.OpenInventory();
+                        _shop.OpenShop(_player); // Shop 출력
                         // 3번 화면 생성  
                         break;
                     case 4:
-                        _shop.OpenShop(_player);
+                        _dungeonManager.ShowDungeonSelectionScene(); //던전 출력
                         // 4번 화면 생성  
                         break;
                     case 5:
-                        _dungeonManager.ShowDungeonSelectionScene();
+                        // 5번 화면 생성 
                         break;
                     
                 }
