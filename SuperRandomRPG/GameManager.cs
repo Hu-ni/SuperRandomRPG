@@ -137,18 +137,19 @@ namespace SuperRandomRPG
                         _player.OpenStatus(_inventory); // 플레이어 상태창 출력  
                         break;
                     case 2:
+                        _inventory.OpenInventory(_player); //인벤토리 출력
                         // 2번 화면 생성  
                         break;
                     case 3:
-                        _inventory.OpenInventory(_player); //인벤토리 출력
+                        _shop.OpenShop(_player); // Shop 출력
                         // 3번 화면 생성  
                         break;
                     case 4:
-                        _shop.OpenShop(_player); // Shop 출력
+                        _dungeonManager.ShowDungeonSelectionScene(); //던전 출력
                         // 4번 화면 생성  
                         break;
                     case 5:
-                        _dungeonManager.ShowDungeonSelectionScene(); //던전 출력
+                        // 5번 화면 생성 
                         break;
                     
                 }
