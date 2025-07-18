@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -78,34 +79,34 @@ namespace Team_SRRPG.Model
         {
             Level++;
             Experience = 0; // 레벨업 시 경험치 초기화
-            switch(Job)
+            Console.Clear();
+            Console.WriteLine("========== 레벨 업! ==========");
+            Console.WriteLine($"{Name} 님이 레벨업했습니다! 현재 레벨: {Level}");
+            int HpUp = 0 , MpUp = 0, AtkUp = 0, DefUp = 0, LuckUp = 0;
+            switch (Job)
             {
                 case Job.Warrior:
-                    Status.Attack += 5;
-                    Status.Defense += 3;
-                    Status.Health += 10;
-                    Status.Mana += 5;
+                    HpUp = 20; MpUp = 10; AtkUp = 5; DefUp = 3; LuckUp = 0;
                     break;
                 case Job.Mage:
-                    Status.Attack += 4;
-                    Status.Defense += 2;
-                    Status.Health += 8;
-                    Status.Mana += 10;
+                    HpUp = 15; MpUp = 20; AtkUp = 4; DefUp = 2; LuckUp = 0;
                     break;
                 case Job.Archer:
-                    Status.Attack += 3;
-                    Status.Defense += 2;
-                    Status.Health += 7;
-                    Status.Mana += 5;
+                    HpUp = 18; MpUp = 15; AtkUp = 3; DefUp = 2; LuckUp = 0;
                     break;
                 case Job.Gambler:
-                    Status.Attack += 2;
-                    Status.Defense += 1;
-                    Status.Health += 5;
-                    Status.Mana += 3;
-                    Luck += 2; // 도박꾼은 레벨업 시 행운 증가
+                    HpUp = 10; MpUp = 5; AtkUp = 2; DefUp = 1; LuckUp = 2;
                     break;
-            }                
+            }
+            Status.Health += HpUp;
+            Status.Mana += MpUp;
+            Status.Attack += AtkUp;
+            Status.Defense += DefUp;
+            Luck += LuckUp;
+            Health = Status.Health; // 레벨업 시 체력 업데이트
+            Mana = Status.Mana; // 레벨업 시 마나 업데이트
+            Console.WriteLine($"체력 +{HpUp}, 마나 +{MpUp}, 공격력 +{AtkUp}, 방어력 +{DefUp}, 행운 +{LuckUp}");
+            Thread.Sleep(3000);
         }
 
         public void OpenStatus()
