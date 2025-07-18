@@ -76,29 +76,33 @@ namespace SuperRandomRPG
 
         public void Initialize()
         {
-            if (File.Exists("\\Data\\Player.xml"))   //실행 위치(bin/(Debug or Release)/net8.0)에 /Data/Player.xml 파일이 있는지 검사
+            if (File.Exists(".\\Data\\Player.xml"))   //실행 위치(bin/(Debug or Release)/net8.0)에 /Data/Player.xml 파일이 있는지 검사
             {
                 // Save 파일로 저장하기 위해 만든 데이터 클레스
-                SaveFileDTO dto = XmlSerializerHelper.Deserialize<SaveFileDTO>("\\Data\\Player.xml");    //있을 경우 데이터 가져오기
+                SaveFileDTO dto = XmlSerializerHelper.Deserialize<SaveFileDTO>(".\\Data\\Player.xml");    //있을 경우 데이터 가져오기
                 _player = dto.Player;
-                _inventory = dto.Inventory;
+                _inventory = dto.Player.Inventory;
+                _player.Inventory = _inventory;
 
                 playerDataExists = true;
+                _shop = new Shop(_inventory, dto.SoldIds);
+
             }
             else
             {
                 _inventory = new Inventory();
+                _inventory.Initialize();    // 데이터가 없을 때만 하게
+                _shop = new Shop(_inventory, new List<int>());
+
             }
 
             if (_player != null)
             {
                 _dungeonManager = new DungeonManager(_player);
             }
-            _shop = new Shop(_inventory);
             _inn = new Inn();
             _village = new Village(_player, _inventory, _shop, _dungeonManager,_inn);
-
-
+            
         }
 
         //시작 함수
@@ -115,6 +119,7 @@ namespace SuperRandomRPG
             if (playerDataExists == false)    //세이브 데이터가 없을 경우
             {
                 _player = CharacterCreator.Create();
+                _player.Inventory = _inventory;
                 _dungeonManager = new DungeonManager(_player);
                 //Save();
             } // 플레이어 생성 처리 로직
@@ -125,35 +130,36 @@ namespace SuperRandomRPG
 
             while (true)
             {
-                _village.OpenVillage(_player, _inventory, _shop, _dungeonManager, _inn); // 마을 출력
+                _village.OpenVillage(); // 마을 출력
                 
-                int input = int.Parse(Console.ReadLine());
-
-                switch (input)
+                if(int.TryParse(Console.ReadLine(), out int input))
                 {
-                    case 1:
-                        // 1번 화면 생성  
-                        _player.OpenStatus(); // 플레이어 상태창 출력  
-                        break;
-                    case 2:
-                        _inventory.OpenInventory(_player);
-                        break;
-                    case 3:
-                        _shop.OpenShop(_player); // Shop 출력
-                        // 3번 화면 생성  
-                        break;
-                    case 4:
-                        _dungeonManager.ShowDungeonSelectionScene(); //던전 출력
-                        // 4번 화면 생성  
-                        break;
-                    case 5:
-                        _inn.EnterInn(_player);
-                        // 5번 화면 생성 
-                        break;
+                    switch (input)
+                    {
+                        case 1:
+                            // 1번 화면 생성  
+                            _player.OpenStatus(); // 플레이어 상태창 출력  
+                            break;
+                        case 2:
+                            _inventory.OpenInventory(_player);
+                            break;
+                        case 3:
+                            _shop.OpenShop(_player); // Shop 출력
+                            // 3번 화면 생성  
+                            break;
+                        case 4:
+                            _dungeonManager.ShowDungeonSelectionScene(); //던전 출력
+                            // 4번 화면 생성  
+                            break;
+                        case 5:
+                            _inn.EnterInn(_player);
+                            // 5번 화면 생성 
+                            break;
                     
-                }
+                    }
 
-                Save();     //플레이어 데이터 저장
+                    Save();     //플레이어 데이터 저장
+                }
             }
         }
 
@@ -164,8 +170,10 @@ namespace SuperRandomRPG
         /// </summary>
         public void Save()
         {
-            XmlSerializerHelper.Serialize(new SaveFileDTO { Player = _player, Inventory = _inventory},
-                        "\\Data\\Player.xml");
+
+
+            XmlSerializerHelper.Serialize(new SaveFileDTO { Player = _player, /*Inventory = _inventory,*/ SoldIds = _shop.GetSoldItemIds()},
+                        ".\\Data\\Player.xml");
         }
     }
 }

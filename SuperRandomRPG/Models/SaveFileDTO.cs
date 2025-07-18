@@ -17,10 +17,10 @@ namespace SuperRandomRPG.Models
         [XmlElement("Player")]
         public Player Player { get; set; }
 
-        [XmlElement("Inventory")]
-        public Inventory Inventory { get; set; }
+        //[XmlElement("Inventory")]
+        //public Inventory Inventory { get; set; }
 
         [XmlElement("Shop")]
-        public Inventory Shop { get; set; }
+        public List<int> SoldIds { get; set; }
     }
 }

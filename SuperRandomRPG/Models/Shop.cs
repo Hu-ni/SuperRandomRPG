@@ -13,12 +13,13 @@ namespace SuperRandomRPG.Models
     {
         private readonly List<Item> ShopItems;
         private Inventory _inventory;
+        private List<int> soldItemIds;
 
-        public Shop(Inventory inven)
+        public Shop(Inventory inven, List<int> Ids)
         {
             
             _inventory = inven;
-
+            soldItemIds = Ids;
             // 아이템 스테이터스 설정
             ShopItems = new List<Item>();
             
@@ -40,7 +41,7 @@ namespace SuperRandomRPG.Models
             {
                 Id = 2,
                 Name = "무쇠 갑옷",
-                Description = "무쇠로 만든 조약한 갑옷",
+                Description = "무쇠로 만든 완전 튼튼한 갑옷",
                 Cost = 200,
                 Luck = 40,
 
@@ -60,7 +61,7 @@ namespace SuperRandomRPG.Models
                 Console.WriteLine($"보유 골드: {player.Gold}\n");
 
                 Console.WriteLine("---------------------------------------------------------------------- \n");
-
+                // TODO: 이미 구매한 기록(soldItemIds)을 보고 여기에 출력할 때도 반영이 되게 하기
                 // 아이템 스테이터스 정렬
                 for (int i = 0; i < ShopItems.Count; i++)
                 {
@@ -84,8 +85,8 @@ namespace SuperRandomRPG.Models
                         Console.WriteLine("\n 상점에서 나갑니다.");
                         break;
                     }
-
-                    if (choice >= 1 && choice <= ShopItems.Count)
+                    // 있으면 true, 없으면 false
+                    if (choice >= 1 && choice <= ShopItems.Count && !soldItemIds.Any(x =>  x == ShopItems[choice-1].Id)/* 구매한 아이템의 아이디 찾기  */) 
                     {
                         var selected = ShopItems[choice - 1];
                         
@@ -100,6 +101,7 @@ namespace SuperRandomRPG.Models
                             if (isSuccess)
                             {
                                 _inventory.Items.Add(selected);
+                                soldItemIds.Add(selected.Id);
 
                                 if (!selected.Name.Contains("구매완료"))
                                 {
@@ -116,7 +118,7 @@ namespace SuperRandomRPG.Models
                                     selected.Name = selected.Name.Replace(" (구매완료)", "");
                                 }
 
-                                Console.WriteLine($"\n'{selected.Name}'을(를) 구매하는 도중 파손되었습니다! 아이템은 사라졌습니다.");
+                                Console.WriteLine($"\n '{selected.Name}'을(를) 구매하는 도중 파손되었습니다! 아이템은 사라졌습니다.");
                             }
 
                             player.Gold -= selected.Cost; // 플레이어 Gold감소
@@ -199,6 +201,7 @@ namespace SuperRandomRPG.Models
             }
         }
 
+        public List<int> GetSoldItemIds() => soldItemIds;
     }   
 }
     

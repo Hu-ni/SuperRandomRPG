@@ -15,21 +15,23 @@ namespace SuperRandomRPG.Models
         [XmlArrayItem("Item")]
         public List<Item> Items { get; set; }
 
-        public Item Find(int id) => Items.FirstOrDefault(x => x.Id == id);
-        public List<Item> FindEquiped() => Items.FindAll(x => x.isEquiped);
-
         public Inventory()
+        {
+            // 생성이 될 때 초기화한다.
+        }
+
+
+        public void Initialize()
         {
             Items = new List<Item>();
             {
                 // 초기 아이템 추가 (예시)
-                Items.Add(new Item(1, "목제 검", "나무로 만든 연습용 검입니다."+"공격력:+3", new Status {Attack = 3}, 100));
-                Items.Add(new Item(2, "목제 보호구", "나무로 만든 연습용 보호구입니다."+"방어력+2", new Status {Defense = 2}, 80));
-                Items.Add(new Item(3, "아무것도 아닌 팬던트", "누군가의 사진이 들어있다.", new Status {Attack = 0}, 50, 1));
+                Items.Add(new Item(1, "목제 검", "나무로 만든 연습용 검입니다." + "공격력:+3", new Status { Attack = 3 }, 100));
+                Items.Add(new Item(2, "목제 보호구", "나무로 만든 연습용 보호구입니다." + "방어력+2", new Status { Defense = 2 }, 80));
+                Items.Add(new Item(3, "아무것도 아닌 팬던트", "누군가의 사진이 들어있다.", new Status { Attack = 0 }, 50, 1));
             }
+
         }
-
-
         public void OpenInventory(Player player)
         {
             Console.Clear();
