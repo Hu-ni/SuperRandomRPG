@@ -61,14 +61,31 @@ namespace SuperRandomRPG.Models
                 Console.WriteLine($"보유 골드: {player.Gold}\n");
 
                 Console.WriteLine("---------------------------------------------------------------------- \n");
-                // TODO: 이미 구매한 기록(soldItemIds)을 보고 여기에 출력할 때도 반영이 되게 하기
+                
                 // 아이템 스테이터스 정렬
                 for (int i = 0; i < ShopItems.Count; i++)
                 {
                     var item = ShopItems[i];
- 
-                    Console.WriteLine($"{item.Id}. {item.Name}ㅣ설명: {item.Description} ㅣ 비용: {item.Cost}G ㅣ 행운: {item.Luck} " +
-                         $" \n (공격력: {item.Status.Attack}, 방어력: {item.Status.Defense},체력: {item.Status.Health}) \n");
+
+                    // TODO: 이미 구매한 기록(soldItemIds)을 보고 여기에 출력할 때도 반영이 되게 하기
+                    if (soldItemIds.Contains(item.Id))
+                    {
+                        if (!item.Name.Contains("구매완료")) 
+                        {
+                            item.Name += "(구매완료)";
+                        }
+                    }
+                    
+                    else 
+                    {
+                        if (item.Name.Contains("구매완료")) 
+                        {
+                            item.Name = item.Name.Replace("(구매완료)", "");
+                        }
+                    }
+
+                        Console.WriteLine($"{item.Id}. {item.Name}ㅣ설명: {item.Description} ㅣ 비용: {item.Cost}G ㅣ 행운: {item.Luck} " +
+                             $" \n (공격력: {item.Status.Attack}, 방어력: {item.Status.Defense},체력: {item.Status.Health}) \n");
                 }
 
                 Console.WriteLine("---------------------------------------------------------------------- \n");
