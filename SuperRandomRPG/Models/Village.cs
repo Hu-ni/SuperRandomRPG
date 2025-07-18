@@ -15,18 +15,18 @@ namespace SuperRandomRPG.Models
         private Inventory _inventory;
         private Shop _shop;
         private DungeonManager _dungeonManager;
-        //private Inn _inn; // -> 여관 생성되면 추가
+        private Inn _inn; // -> 여관 생성되면 추가
 
-        public Village(Player player, Inventory inventory, Shop shop, DungeonManager dungeonManager)//, Inn inn)
+        public Village(Player player, Inventory inventory, Shop shop, DungeonManager dungeonManager, Inn inn)
         {
             _player = player;
             _inventory = inventory;
             _shop = shop;
             _dungeonManager = dungeonManager;
-            //_inn = inn;
+            _inn = inn;
         }
 
-        public void OpenVillage(Player player, Inventory inventory, Shop shop, DungeonManager dungeonManager)//, Inn inn)
+        public void OpenVillage(Player player, Inventory inventory, Shop shop, DungeonManager dungeonManager, Inn inn)
         {
             Console.Clear();
             Console.WriteLine("===== 마을화면 =====");
@@ -41,7 +41,7 @@ namespace SuperRandomRPG.Models
 
             Console.WriteLine($"--------------------------------------------------------------------------- \n");
             Console.WriteLine("0.나가기");
-            Console.WriteLine(">>");
+            Console.Write(">> ");
         }
 
         public void VillageSelection(string selection)
@@ -51,7 +51,7 @@ namespace SuperRandomRPG.Models
             {
                 case "1":
                     Console.WriteLine("상태창으로 이동합니다");
-                    _player.OpenStatus(_inventory);
+                    _player.OpenStatus();
                     break;
 
                 case "2":
@@ -69,10 +69,10 @@ namespace SuperRandomRPG.Models
                     _dungeonManager.ShowDungeonSelectionScene();
                     break;
 
-                //case "5":
-                //     Console.WriteLine("여관(휴식)으로 이동합니다");
-                //     _inn.OpenInn();
-                //     break;
+                case "5":
+                    Console.WriteLine("여관(휴식)으로 이동합니다");
+                    _inn.EnterInn(_player);
+                    break;
 
                 case "0":
                     Console.WriteLine("나가기를 선택하셨습니다");
