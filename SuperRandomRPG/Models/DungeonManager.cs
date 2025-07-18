@@ -261,7 +261,7 @@ namespace Team_SRRPG.Model
                         Thread.Sleep(1500);
                         Console.WriteLine("게임을 종료합니다...");
                         Thread.Sleep(2000);
-                        Environment.Exit(0); // 💥 End game
+                        Environment.Exit(0);
                         return;
                     }
                     else if (result == CombatResult.Escaped)
