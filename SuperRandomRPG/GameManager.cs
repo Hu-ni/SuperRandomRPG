@@ -153,7 +153,7 @@ namespace SuperRandomRPG
                     
                 }
 
-                //Save();     //플레이어 데이터 저장
+                Save();     //플레이어 데이터 저장
             }
         }
 
