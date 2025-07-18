@@ -28,8 +28,15 @@ namespace SuperRandomRPG.Models
         {
             while (true)
             {
-                int input = int.Parse(Console.ReadLine());
+
+                int input = 0;
+                bool isInt = int.TryParse(Console.ReadLine(), out input);
                 int roll = new Random().Next(1, 101);
+                if (!isInt || input < 0 || input > 2)
+                {
+                    Console.WriteLine("잘못된 입력입니다. 다시 시도하세요.");
+                    continue;
+                }
                 if (input == 1)
                 {
                     if (roll < 51)
@@ -40,9 +47,10 @@ namespace SuperRandomRPG.Models
                     }
                     else
                     {
-                        Console.WriteLine("아쉽습니다. 500골드를 잃었습니다.");
-                        Player.Gold -= 500;
+                        Console.WriteLine("아쉽습니다. 1000골드를 잃었습니다.");
+                        Player.Gold -= 1000;
                         Console.WriteLine($"현재 플레이어 금액: {Player.Gold} Gold");
+                        LossAllMoney();
                     }
                 }
                 if (input == 2)
@@ -55,15 +63,16 @@ namespace SuperRandomRPG.Models
                     }
                     else if (roll >= 11 && roll < 41)
                     {
-                        Console.WriteLine("축하합니다! 1500골드를 획득했습니다.");
-                        Player.Gold += 1500;
+                        Console.WriteLine("축하합니다! 1000골드를 획득했습니다.");
+                        Player.Gold += 1000;
                         Console.WriteLine($"현재 플레이어 금액: {Player.Gold} Gold");
                     }
                     else if (roll >= 41 && roll < 101)
                     {
-                        Console.WriteLine("아쉽습니다. 2000골드를 잃었습니다.");
-                        Player.Gold -= 2000;
+                        Console.WriteLine("아쉽습니다. 3000골드를 잃었습니다.");
+                        Player.Gold -= 3000;
                         Console.WriteLine($"현재 플레이어 금액: {Player.Gold} Gold");
+                        LossAllMoney();
                     }
                     else
                     {
@@ -77,11 +86,20 @@ namespace SuperRandomRPG.Models
                     Console.WriteLine("카지노를 나갑니다.");
                     break;
                 }
-                else
-                {
-                    Console.WriteLine("잘못된 입력입니다. 다시 시도하세요.");
-                    continue;
-                }
+            }
+        }
+
+        public void LossAllMoney()
+        {
+            if(Player.Gold < 500)
+            {
+                Console.Clear();
+                Console.WriteLine("카지노에서 모든 돈을 잃었습니다...");
+                Console.WriteLine("당신은 카지노 주인에게 빚을 갚으며 살게 됩니다.");
+                Console.WriteLine("이것은 배드엔딩이 아닙니다. 아주 일반적인 도박에 빠진 사람들의 결말이죠");
+                Console.WriteLine("5초 뒤에 게임이 종료됩니다.");
+                Thread.Sleep(5000);
+                Environment.Exit(0);
             }
         }
     }
