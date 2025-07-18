@@ -27,6 +27,11 @@ namespace Team_SRRPG.Model
         public int Mana { get; set; } // 플레이어 마나    
         public int Gold { get; set; } // 플레이어 소지 금액    
         public int Luck { get; set; } // 플레이어 행운    
+        public Inventory Inventory { get; set; } // 플레이어 인벤토리
+        public int TotalAttack => Status.Attack + Inventory.Items.Where(x => x.isEquiped).Sum(x => x.Status.Attack);
+        public int TotalDefense => Status.Defense + Inventory.Items.Where(x => x.isEquiped).Sum(x => x.Status.Defense);
+        public int TotalLuck => Luck + Inventory.Items.Where(x => x.isEquiped).Sum(x => x.Luck);
+
 
 
         public Player(string name, Job job, int level = 1, int exp = 0, int gold = 1000)
@@ -36,6 +41,7 @@ namespace Team_SRRPG.Model
             Level = level;
             Experience = exp;
             Gold = gold;
+            Inventory = new Inventory();
 
             switch (job)
             {
@@ -100,14 +106,11 @@ namespace Team_SRRPG.Model
             }                
         }
 
-        public void OpenStatus(Inventory Inventory)
+        public void OpenStatus()
         {
-            int bonusAttack = Inventory.Items.Where(item => item.isEquiped).Sum(item => item.Status.Attack);
-            int bonusDefense = Inventory.Items.Where(item => item.isEquiped).Sum(item => item.Status.Defense);
-            int bounsLuck = Inventory.Items.Where(item => item.isEquiped).Sum(item => item.Luck);
-            int TotalLuck = Luck + bounsLuck;
-            int TotalAttack = Status.Attack + bonusAttack;
-            int TotalDefense = Status.Defense + bonusDefense;
+            int bonusAttack = TotalAttack - Status.Attack;
+            int bonusDefense = TotalDefense - Status.Defense;
+            int bonusluck = TotalLuck - Luck;
 
             Console.WriteLine("플레이어 상태창입니다. 0을 눌러 나갈 수 있습니다.");
             Console.WriteLine($"이름: {Name}");
@@ -117,10 +120,10 @@ namespace Team_SRRPG.Model
             Console.WriteLine($"체력: {Health}");
             Console.WriteLine($"마나: {Mana}");
             Console.WriteLine($"Gold: {Gold}");
-            Console.WriteLine($"행운: {TotalLuck}+{bounsLuck}");
+            Console.WriteLine($"행운: {TotalLuck}+{bonusluck}");
             Console.WriteLine("Status:");
-            Console.WriteLine($"공격력: {TotalAttack}+{(bonusAttack)}");
-            Console.WriteLine($"방어력: {TotalDefense}+{(bonusDefense)}");
+            Console.WriteLine($"공격력: {TotalAttack}+{bonusAttack}");
+            Console.WriteLine($"방어력: {TotalDefense}+{bonusDefense}");
             Console.WriteLine($"0. 나가기");
 
             while (true)

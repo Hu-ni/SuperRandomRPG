@@ -91,16 +91,32 @@ namespace SuperRandomRPG.Models
                         
                         if (player.Gold >= selected.Cost) 
                         {
-                            _inventory.Items.Add(selected);
-                            Console.WriteLine($"{selected.Name} 구매 완료");
+                            
+                            Random random = new Random();
+                            bool isSuccess = random.Next(2) == 0;
+                            
+                            // 아이템 구매시 50%확률로 구매완료
+                            if (isSuccess)
+                            {
+                                _inventory.Items.Add(selected);
+                                Console.WriteLine($"\n성공적으로 '{selected.Name}'을(를) 구매했습니다!");
+                                selected.Name += " (구매완료)"; // 구매 아이템 "구매완료" 표시
+                            }
+
+                            else
+                            {
+                                // 아이템 구매시 50%확률로 파손
+                                Console.WriteLine($"\n'{selected.Name}'을(를) 구매하는 도중 파손되었습니다! 아이템은 사라졌습니다.");
+                            }
 
                             player.Gold -= selected.Cost; // 플레이어 Gold감소
-                            selected.Name += "구매완료"; // 구매 아이템 "구매완료" 표시
+                            
                         }
-                        
                         else
                         {
-                            Console.WriteLine("\n 돈이 부족합니다!");
+                            // 골드 부족 시 몰수
+                            Console.WriteLine($"\n골드가 부족하여 '{selected.Name}'을(를) 강제로 몰수당했습니다!");
+                            player.Gold = 0;
                         }
 
                     }
