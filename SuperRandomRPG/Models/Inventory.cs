@@ -32,6 +32,7 @@ namespace SuperRandomRPG.Models
 
         public void OpenInventory(Player player)
         {
+            Console.Clear();
             // 호출 시 확률적으로 플레이어의 골드가 10%감소하는 기능 추가
             if (new Random().Next(1, 11) == 1 && player.Gold > 50) // 10% 확률
             {

@@ -110,6 +110,7 @@ namespace Team_SRRPG.Model
 
         public void OpenStatus()
         {
+            Console.Clear();
             int bonusAttack = TotalAttack - Status.Attack;
             int bonusDefense = TotalDefense - Status.Defense;
             int bonusluck = TotalLuck - Luck;
