@@ -40,7 +40,7 @@ namespace SuperRandomRPG.Models
             {
                 Id = 2,
                 Name = "무쇠 갑옷",
-                Description = "무쇠로 만든 조약한 갑옷",
+                Description = "무쇠로 만든 완전 튼튼한 갑옷",
                 Cost = 200,
                 Luck = 40,
 
@@ -116,7 +116,7 @@ namespace SuperRandomRPG.Models
                                     selected.Name = selected.Name.Replace(" (구매완료)", "");
                                 }
 
-                                Console.WriteLine($"\n'{selected.Name}'을(를) 구매하는 도중 파손되었습니다! 아이템은 사라졌습니다.");
+                                Console.WriteLine($"\n '{selected.Name}'을(를) 구매하는 도중 파손되었습니다! 아이템은 사라졌습니다.");
                             }
 
                             player.Gold -= selected.Cost; // 플레이어 Gold감소

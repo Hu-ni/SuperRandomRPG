@@ -98,7 +98,6 @@ namespace SuperRandomRPG
             _inn = new Inn();
             _village = new Village(_player, _inventory, _shop, _dungeonManager,_inn);
 
-
         }
 
         //시작 함수
