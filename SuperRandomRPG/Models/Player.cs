@@ -104,6 +104,8 @@ namespace Team_SRRPG.Model
         {
             int bonusAttack = Inventory.Items.Where(item => item.isEquiped).Sum(item => item.Status.Attack);
             int bonusDefense = Inventory.Items.Where(item => item.isEquiped).Sum(item => item.Status.Defense);
+            int bounsLuck = Inventory.Items.Where(item => item.isEquiped).Sum(item => item.Luck);
+            int TotalLuck = Luck + bounsLuck;
             int TotalAttack = Status.Attack + bonusAttack;
             int TotalDefense = Status.Defense + bonusDefense;
 
@@ -115,7 +117,7 @@ namespace Team_SRRPG.Model
             Console.WriteLine($"체력: {Health}");
             Console.WriteLine($"마나: {Mana}");
             Console.WriteLine($"Gold: {Gold}");
-            Console.WriteLine($"행운: {Luck}");
+            Console.WriteLine($"행운: {TotalLuck}+{bounsLuck}");
             Console.WriteLine("Status:");
             Console.WriteLine($"공격력: {TotalAttack}+{(bonusAttack)}");
             Console.WriteLine($"방어력: {TotalDefense}+{(bonusDefense)}");
