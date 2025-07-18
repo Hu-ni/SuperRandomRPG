@@ -26,7 +26,7 @@ namespace SuperRandomRPG.Models
             _inn = inn;
         }
 
-        public void OpenVillage(Player player, Inventory inventory, Shop shop, DungeonManager dungeonManager, Inn inn)
+        public void OpenVillage()
         {
             Console.Clear();
             Console.WriteLine("===== 마을화면 =====");

@@ -28,7 +28,7 @@ namespace Team_SRRPG.Model
         public int Mana { get; set; } // 플레이어 마나    
         public int Gold { get; set; } // 플레이어 소지 금액    
         public int Luck { get; set; } // 플레이어 행운    
-        public Inventory Inventory { get; set; } // 플레이어 인벤토리
+        public Inventory Inventory { get; set; } // 플레이어 인벤토리       //Xml 데이터 가지고올 때 XmlSerializer 얘가 알아서 쟤를 생성한다. 
         public int TotalAttack => Status.Attack + Inventory.Items.Where(x => x.isEquiped).Sum(x => x.Status.Attack);
         public int TotalDefense => Status.Defense + Inventory.Items.Where(x => x.isEquiped).Sum(x => x.Status.Defense) + TempDefenseBoost;
         public int TotalLuck => Luck + Inventory.Items.Where(x => x.isEquiped).Sum(x => x.Luck) + TempLuckBoost;
@@ -47,7 +47,7 @@ namespace Team_SRRPG.Model
             Level = level;
             Experience = exp;
             Gold = gold;
-            Inventory = new Inventory();
+            //Inventory = new Inventory();
 
             switch (job)
             {
@@ -114,6 +114,8 @@ namespace Team_SRRPG.Model
 
         public void OpenStatus()
         {
+              //값만 복사되는게 아니라 주소를 복사하는거라 inventory 수정이 되면 얘도 영향을 받는데
+            // call by reference, call by value 이 두 개를 공부하면 이해하기 쉬울 것.
             Console.Clear();
             int bonusAttack = TotalAttack - Status.Attack;
             int bonusDefense = TotalDefense - Status.Defense;

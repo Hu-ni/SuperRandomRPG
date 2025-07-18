@@ -16,7 +16,6 @@ namespace Spartdungeon.Services
         {
             XmlSerializer serializer = new XmlSerializer(typeof(T), "");
 
-
             using (FileStream fs = new FileStream(filePath, FileMode.Open))
             {
                 return (T)serializer.Deserialize(fs);
