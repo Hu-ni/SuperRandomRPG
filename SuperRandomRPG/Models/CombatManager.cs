@@ -18,7 +18,6 @@ namespace Team_SRRPG.Model
         }
         public CombatResult StartCombat()
         {
-            //int originalAttack = _player.Status.Attack; Maybe Needed
             int originalDefense = _player.Status.Defense;
             int originalLuck = _player.Luck;
             while (_monsters.Any(m => m.Status.Health > 0) && _player.Health > 0)
@@ -191,7 +190,7 @@ namespace Team_SRRPG.Model
 
             if (roll >= successThreshold)
             {
-                int penalty = 50; //일단은 50
+                int penalty = 100; //일단은 50
                 _player.Gold = Math.Max(0, _player.Gold - penalty);
                 Console.WriteLine($"도망에 성공했습니다! Gold {penalty}를 잃었습니다.");
                 Thread.Sleep(2000);
