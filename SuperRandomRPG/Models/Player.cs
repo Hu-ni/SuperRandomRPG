@@ -29,8 +29,10 @@ namespace Team_SRRPG.Model
         public int Luck { get; set; } // 플레이어 행운    
         public Inventory Inventory { get; set; } // 플레이어 인벤토리
         public int TotalAttack => Status.Attack + Inventory.Items.Where(x => x.isEquiped).Sum(x => x.Status.Attack);
-        public int TotalDefense => Status.Defense + Inventory.Items.Where(x => x.isEquiped).Sum(x => x.Status.Defense);
-        public int TotalLuck => Luck + Inventory.Items.Where(x => x.isEquiped).Sum(x => x.Luck);
+        public int TotalDefense => Status.Defense + Inventory.Items.Where(x => x.isEquiped).Sum(x => x.Status.Defense) + TempDefenseBoost;
+        public int TotalLuck => Luck + Inventory.Items.Where(x => x.isEquiped).Sum(x => x.Luck) + TempLuckBoost;
+        public int TempDefenseBoost { get; set; } = 0;
+        public int TempLuckBoost { get; set; } = 0;
 
 
 
