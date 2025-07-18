@@ -8,11 +8,6 @@ namespace Team_SRRPG.Model
         private int _price;
         private static Random _rng = new();
 
-        public Inn(int price = 50) // default price
-        {
-            _price = price;
-        }
-
         private int RiggedRollByLuck(int luck)
         {
             Random rnd = new Random();
