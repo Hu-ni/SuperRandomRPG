@@ -40,7 +40,7 @@ namespace SuperRandomRPG.Models
             {
                 Id = 2,
                 Name = "무쇠 갑옷",
-                Description = "무쇠로 만든 조약한 갑옷",
+                Description = "무쇠로 만든 완전 튼튼한 갑옷",
                 Cost = 200,
                 Luck = 40,
 
