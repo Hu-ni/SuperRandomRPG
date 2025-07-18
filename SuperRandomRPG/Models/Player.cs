@@ -35,7 +35,10 @@ namespace Team_SRRPG.Model
         public int TempLuckBoost { get; set; } = 0;
 
 
+        public Player()
+        {
 
+        }
         public Player(string name, Job job, int level = 1, int exp = 0, int gold = 1000)
         {
             Name = name;

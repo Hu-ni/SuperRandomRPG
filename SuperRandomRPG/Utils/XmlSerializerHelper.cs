@@ -29,6 +29,17 @@ namespace Spartdungeon.Services
         public static void Serialize<T>(T obj, string filePath)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(T), "");
+
+
+            // 1. 경로에서 폴더 추출
+            string dirPath = Path.GetDirectoryName(filePath);
+
+            // 2. 폴더가 없다면 생성
+            if (!Directory.Exists(dirPath))
+            {
+                Directory.CreateDirectory(dirPath);
+            }
+
             using (FileStream fs = new FileStream(filePath, FileMode.Create))
             {
                 serializer.Serialize(fs, obj);

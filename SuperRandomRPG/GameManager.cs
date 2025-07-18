@@ -164,8 +164,10 @@ namespace SuperRandomRPG
         /// </summary>
         public void Save()
         {
+
+
             XmlSerializerHelper.Serialize(new SaveFileDTO { Player = _player, Inventory = _inventory},
-                        "\\Data\\Player.xml");
+                        ".\\Data\\Player.xml");
         }
     }
 }
