@@ -23,9 +23,9 @@ namespace SuperRandomRPG.Models
             Items = new List<Item>();
             {
                 // 초기 아이템 추가 (예시)
-                Items.Add(new Item(1, "Iron Sword", "A basic iron sword.", new Status {Attack = 10}, 100));
-                Items.Add(new Item(2, "Leather Armor", "A basic leather armor.", new Status {Defense = 5}, 80));
-                Items.Add(new Item(3, "Healing Potion", "Restores 20 health.", new Status { Health = 20 }, 50));
+                Items.Add(new Item(1, "목제 검", "나무로 만든 연습용 검입니다."+"공격력:+3", new Status {Attack = 3}, 100));
+                Items.Add(new Item(2, "목제 보호구", "나무로 만든 연습용 보호구입니다."+"방어력+2", new Status {Defense = 2}, 80));
+                Items.Add(new Item(3, "아무것도 아닌 팬던트", "누군가의 사진이 들어있다.", new Status {Attack = 0}, 50, 1));
             }
         }
 
@@ -36,7 +36,14 @@ namespace SuperRandomRPG.Models
             for (int i = 0; i < Items.Count; i++)
             {
                 var item = Items[i];
-                Console.WriteLine($"{i + 1}. {item.Name} - {item.Description}");
+                if(item.isEquiped)
+                {
+                    Console.WriteLine($"{i + 1}. [E]{item.Name} - {item.Description}");
+                }
+                else 
+                {
+                    Console.WriteLine($"{i + 1}. {item.Name} - {item.Description}");
+                }          
             }
             Console.WriteLine("0. 나가기");
             while (true)
