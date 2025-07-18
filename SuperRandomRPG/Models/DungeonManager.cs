@@ -246,7 +246,7 @@ namespace Team_SRRPG.Model
                     {
                         Console.WriteLine("전투에서 패배했습니다... 당신은 죽었습니다.");
                         Thread.Sleep(2000);
-                        const string SaveFilePath = "Player.xml";
+                        const string SaveFilePath = ".\\Data\\Player.xml";
 
                         if (File.Exists(SaveFilePath))
                         {
