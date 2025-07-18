@@ -84,11 +84,20 @@ namespace Team_SRRPG.Model
                 switch (input)
                 {
                     case "1":
-                        PlayerAttack();
-                        return null;
+                        bool attacked = PlayerAttack();
+                        if (attacked)
+                            return null;
+                        else
+                            DisplayCombatStatus();
+                        continue;
+
                     case "2":
-                        PlayerSkill();
-                        return null;
+                        bool skillUsed = PlayerSkill();
+                        if (skillUsed)
+                            return null;
+                        else
+                            DisplayCombatStatus();
+                        continue;
                     case "3":
                         // TODO: Implement PlayerItem()
                         Console.WriteLine("아이템은 아직 구현되지 않았습니다.");
@@ -107,19 +116,27 @@ namespace Team_SRRPG.Model
             }
         }
 
-        private void PlayerAttack()
+        private bool PlayerAttack()
         {
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("\n공격할 대상을 선택하세요:");
+                Console.WriteLine("\n공격할 대상을 선택하세요");
                 for (int i = 0; i < _monsters.Count; i++)
                 {
                     if (_monsters[i].Status.Health > 0)
                         Console.WriteLine($"{i + 1}. {_monsters[i].Name} (HP: {_monsters[i].Status.Health})");
                 }
+                Console.WriteLine("\n\n0. 취소하기");
                 Console.Write(">> ");
                 string? input = Console.ReadLine();
+
+                if (input == "0")
+                {
+                    Console.WriteLine("공격을 취소했습니다.");
+                    Thread.Sleep(1000);
+                    return false;
+                }
 
                 if (int.TryParse(input, out int choice) &&
                     choice >= 1 &&
@@ -145,7 +162,7 @@ namespace Team_SRRPG.Model
                         Console.WriteLine($"{target.Name}: HP {beforeHP} → {target.Status.Health}");
                     }
                     Thread.Sleep(3000);
-                    break;
+                    return true;
                 }
                 else
                 {
@@ -155,6 +172,8 @@ namespace Team_SRRPG.Model
                 }
             }
         }
+
+
         private bool RunAway(int luck)
         {
             double averageMonsterLevel = _monsters
@@ -268,7 +287,7 @@ namespace Team_SRRPG.Model
             return (int)Math.Round(finalDamage);
         }
         //From here Player Skills
-        private void PlayerSkill()
+        private bool PlayerSkill()
         {
             List<Skill> skills = _skillRepo.GetSkillsByJob(_player.Job);
             while (true)
@@ -289,7 +308,7 @@ namespace Team_SRRPG.Model
                 {
                     Console.WriteLine("스킬 선택을 취소했습니다.");
                     Thread.Sleep(1000);
-                    break;
+                    return false;
                 }
 
                 if (int.TryParse(input, out int index) && index >= 1 && index <= skills.Count)
@@ -315,7 +334,16 @@ namespace Team_SRRPG.Model
                             UseStatBoostSkill(selectedSkill);
                             break;
                         case SkillType.Healing:
-                            //UseHealingSkill(selectedSkill);
+                            UseHealingSkill(selectedSkill);
+                            break;
+                        case SkillType.AllAttack:
+                            UseAreaAttack(selectedSkill);
+                            break;
+                        case SkillType.WAttack:
+                            UseWAttack(selectedSkill);
+                            break;
+                        case SkillType.GAttack:
+                            UseGAttack(selectedSkill);
                             break;
                     }
                     break;
@@ -326,6 +354,7 @@ namespace Team_SRRPG.Model
                     Thread.Sleep(1500);
                 }
             }
+            return true;
         }
         private void UseAttackSkill(Skill skill)
         {
@@ -397,9 +426,220 @@ namespace Team_SRRPG.Model
 
             Thread.Sleep(3000);
         }
-        private void UseHealingSkill()
+        private void UseHealingSkill(Skill skill)
         {
+            Console.Clear();
+            int roll = RiggedRollByLuck(_player.Luck);
+            Random rand = new Random();
 
+            int healAmount = (int)(skill.Power * (0.8 + rand.NextDouble() * 0.4));
+
+            if (roll == 20)
+            {
+                healAmount *= 2;
+                Console.WriteLine("회복 효과 극대화! 회복량 2배!");
+            }
+            else if (roll == 1)
+            {
+                int damage = healAmount;
+                _player.Health = Math.Max(_player.Health - damage, 0);
+                Console.WriteLine("스킬이 폭주했습니다! 오히려 피해를 입었습니다!");
+                Console.WriteLine($"{_player.Name}이(가) {damage}의 피해를 입었습니다!");
+                Thread.Sleep(3000);
+                return;
+            }
+
+            int beforeHP = _player.Health;
+            _player.Health = Math.Min(_player.Health + healAmount, _player.Status.Health);
+
+            Console.WriteLine($"{_player.Name}의 체력이 {beforeHP} → {_player.Health} 회복되었습니다!");
+            Thread.Sleep(3000);
         }
+        private void UseAreaAttack(Skill skill)
+        {
+            Console.Clear();
+            Console.WriteLine($"[{skill.Name}] 스킬을 시전합니다! 모든 적에게 피해를 줍니다...\n");
+
+            int roll = RiggedRollByLuck(_player.Luck);
+            Random rand = new Random();
+
+            double multiplier;
+            if (roll == 1)
+            {
+                Console.WriteLine("스킬이 빗나갔습니다! 아무 효과도 없습니다...");
+                Thread.Sleep(3000);
+                return;
+            }
+            else if (roll == 20)
+            {
+                Console.WriteLine("치명적인 광역 공격! 피해량 2배!");
+                multiplier = 2.0;
+            }
+            else
+            {
+                multiplier = roll / 10.0;
+            }
+
+            int baseDamage = skill.Power + (_player.Status.Attack / 3);
+            int finalDamage = (int)Math.Round(baseDamage * multiplier);
+
+            foreach (var monster in _monsters.Where(m => m.Status.Health > 0))
+            {
+                int damageDealt = Math.Clamp(finalDamage - monster.Status.Defense, 0, 999);
+                int beforeHP = monster.Status.Health;
+                monster.Status.Health = Math.Max(monster.Status.Health - damageDealt, 0);
+
+                Console.WriteLine($"{monster.Name}에게 {damageDealt}의 피해를 입혔습니다! (HP: {beforeHP} → {monster.Status.Health})");
+            }
+            Thread.Sleep(3500);
+        }
+        private void UseWAttack(Skill skill)
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine($"[{skill.Name}] 사용할 대상 몬스터 선택:");
+
+                for (int i = 0; i < _monsters.Count; i++)
+                {
+                    if (_monsters[i].Status.Health > 0)
+                        Console.WriteLine($"{i + 1}. {_monsters[i].Name} (HP: {_monsters[i].Status.Health})");
+                }
+
+                Console.Write(">> ");
+                string? input = Console.ReadLine();
+
+                if (int.TryParse(input, out int choice) &&
+                    choice >= 1 && choice <= _monsters.Count &&
+                    _monsters[choice - 1].Status.Health > 0)
+                {
+                    Console.Clear();
+                    Monster target = _monsters[choice - 1];
+
+                    int roll = RiggedRollByLuck(_player.Luck);
+                    double multiplier;
+
+                    if (roll == 1)
+                    {
+                        Console.WriteLine("스킬이 빗나갔습니다! 아무 효과도 없습니다...");
+                        Thread.Sleep(3000);
+                        return;
+                    }
+                    else if (roll == 20)
+                    {
+                        Console.WriteLine("방어를 활용한 치명타! 피해량 2배!");
+                        multiplier = 2.0;
+                    }
+                    else
+                    {
+                        multiplier = roll / 10.0;
+                    }
+
+                    int baseDamage = skill.Power + (_player.Status.Defense / 2);
+                    int totalDamage = (int)Math.Round(baseDamage * multiplier);
+                    int finalDamage = Math.Clamp(totalDamage - target.Status.Defense, 0, 999);
+
+                    int beforeHP = target.Status.Health;
+                    target.Status.Health = Math.Max(target.Status.Health - finalDamage, 0);
+
+                    Console.WriteLine($"{_player.Name}이(가) {skill.Name}을(를) 사용하여 {target.Name}에게 {finalDamage}의 피해를 입혔습니다!");
+                    Console.WriteLine($"{target.Name}: HP {beforeHP} → {target.Status.Health}");
+
+                    Thread.Sleep(3000);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 입력입니다. 다시 선택하세요.");
+                    Thread.Sleep(1500);
+                }
+            }
+        }
+        private void UseGAttack(Skill skill)
+        {
+            Monster target = null!;
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine($"[{skill.Name}]은(는) 플레이어의 골드를 투자해 강력한 공격을 하는 기술입니다!");
+                Console.WriteLine("공격할 대상을 선택하세요:");
+                for (int i = 0; i < _monsters.Count; i++)
+                {
+                    if (_monsters[i].Status.Health > 0)
+                        Console.WriteLine($"{i + 1}. {_monsters[i].Name} (HP: {_monsters[i].Status.Health})");
+                }
+
+                Console.Write(">> ");
+                string? targetInput = Console.ReadLine();
+
+                if (int.TryParse(targetInput, out int choice) &&
+                    choice >= 1 && choice <= _monsters.Count &&
+                    _monsters[choice - 1].Status.Health > 0)
+                {
+                    target = _monsters[choice - 1];
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 선택입니다. 다시 시도하세요.");
+                    Thread.Sleep(1500);
+                }
+            }
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine($"[{skill.Name}]을(를) 사용하여 {target.Name}을(를) 공격합니다!");
+                Console.WriteLine($"현재 보유 골드: {_player.Gold}");
+                Console.Write("얼마의 골드를 투자하시겠습니까? >> ");
+                string? input = Console.ReadLine();
+
+                if (int.TryParse(input, out int goldInvestment) && goldInvestment > 0 && goldInvestment <= _player.Gold)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"골드 {goldInvestment}을(를) 투자하여 {skill.Name} 시전 중...\n");
+
+                    int roll = RiggedRollByLuck(_player.Luck);
+                    double multiplier;
+
+                    if (roll == 1)
+                    {
+                        Console.WriteLine("대실패! 공격이 빗나가고 골드만 날렸습니다...");
+                        _player.Gold -= goldInvestment;
+                        Thread.Sleep(3000);
+                        return;
+                    }
+                    else if (roll == 20)
+                    {
+                        Console.WriteLine("대성공! 피해량이 2배로 증가합니다!");
+                        multiplier = 2.0;
+                    }
+                    else
+                    {
+                        multiplier = roll / 10.0;
+                    }
+
+                    int baseDamage = skill.Power * goldInvestment;
+                    int finalDamage = (int)Math.Round(baseDamage * multiplier);
+                    int beforeHP = target.Status.Health;
+
+                    int damageDealt = Math.Clamp(finalDamage - target.Status.Defense, 0, 999);
+                    target.Status.Health = Math.Max(target.Status.Health - damageDealt, 0);
+                    _player.Gold -= goldInvestment;
+
+                    Console.WriteLine($"{_player.Name}이(가) {skill.Name}으로 {target.Name}에게 {damageDealt}의 피해를 입혔습니다!");
+                    Console.WriteLine($"{target.Name}: HP {beforeHP} → {target.Status.Health}");
+                    Console.WriteLine($"골드 {goldInvestment}이(가) 차감되었습니다. 현재 골드: {_player.Gold}");
+                    Thread.Sleep(3000);
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 골드 입력입니다.");
+                    Thread.Sleep(1500);
+                }
+            }
+        }
+
+
     }
 }

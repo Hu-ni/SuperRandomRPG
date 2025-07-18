@@ -18,9 +18,10 @@ public static class CharacterCreator
         while (true)
         {
             Console.WriteLine("당신의 직업은 무엇입니까?");
-            Console.WriteLine("1. Warrior");
-            Console.WriteLine("2. Mage");
-            Console.WriteLine("3. Archer");
+            Console.WriteLine("1. 전사");
+            Console.WriteLine("2. 마법사");
+            Console.WriteLine("3. 궁사");
+            Console.WriteLine("4. 도박꾼");
 
             string input = Console.ReadLine();
 
@@ -39,13 +40,18 @@ public static class CharacterCreator
                 job = Job.Archer;
                 break;
             }
+            else if (input == "4")
+            {
+                job = Job.Gambler;
+                break;
+            }
             else
             {
                 Console.Clear();
                 Console.WriteLine("다시 입력해주세요.");
             }
         }
-        Player player = new Player(name, job, new Status {Health = 100, Attack = 5, Defense = 5});
+        Player player = new Player(name, job);
 
         Console.Clear();
         Console.WriteLine();

@@ -141,6 +141,26 @@ namespace Team_SRRPG.Model
                 }
             }
         }
+        
+        private void DrawRoomUI(string dungeonName, int currentRoom, int maxRooms)
+        {
+            Console.Clear();
+            Console.WriteLine(" __________   __________   __________");
+            Console.WriteLine("|          | |          | |          |");
+
+            for (int i = 0; i < maxRooms; i++)
+            {
+                if (i == currentRoom)
+                    Console.Write("|    O     |=");
+                else
+                    Console.Write("|          |=");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("|__________|=|__________|=|__________|\n\n");
+            Console.WriteLine($"[{dungeonName}] {currentRoom + 1}/{maxRooms} 방 탐색 중...");
+            Console.WriteLine("1. 다음 방으로 이동\n2. 아이템 사용하기\n3. 상태보기");
+        }
 
         private void EnterDungeon(Dungeon dungeon)
         {
@@ -151,20 +171,7 @@ namespace Team_SRRPG.Model
             {
                 Console.Clear();
                 Console.Clear();
-                Console.WriteLine(" __________   __________   __________");
-                Console.WriteLine("|          | |          | |          |");
-
-                for (int i = 0; i < maxRooms; i++)
-                {
-                    if (i == currentRoom)
-                        Console.Write("|    O     |=");
-                    else
-                        Console.Write("|          |=");
-                }
-                Console.WriteLine();
-                Console.WriteLine("|__________|=|__________|=|__________|\n\n");
-                Console.WriteLine($"[{dungeon.Name}] {currentRoom + 1}/{maxRooms} 방 탐색 중...");
-                Console.WriteLine("1. 다음 방으로 이동\n2. 아이템 사용하기\n3. 상태보기");
+                DrawRoomUI(dungeon.Name, currentRoom, maxRooms);
                 Console.Write(">> ");
                 string? input = Console.ReadLine();
 
@@ -181,7 +188,7 @@ namespace Team_SRRPG.Model
                     {
                         Console.WriteLine("전투에서 패배했습니다... 당신은 죽었습니다.");
                         Thread.Sleep(2000);
-                        return; 
+                        return;
                     }
                     else if (result == CombatResult.Escaped)
                     {
