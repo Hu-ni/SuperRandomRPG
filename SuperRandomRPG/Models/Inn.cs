@@ -50,7 +50,7 @@ namespace Team_SRRPG.Model
                 Console.WriteLine($"Mana:{player.Mana}/{player.Status.Mana}");
                 Console.WriteLine($"현재 골드: {player.Gold}");
                 Console.WriteLine($"무엇을 하시겠습니까?\n\n");
-                Console.WriteLine("1.휴식하기 (500G)\n2.도박하기\n\n0.나가기");
+                Console.WriteLine("1.휴식하기 (500G)\n0.나가기");
                 Console.WriteLine(">>");
                 string? input = Console.ReadLine();
 
@@ -106,10 +106,6 @@ namespace Team_SRRPG.Model
                         Console.WriteLine($"현재 마나: {player.Mana}/{player.Status.Mana}");
                         Console.WriteLine($"남은 소지금: {player.Gold}G");
                         Thread.Sleep(3000);
-                    }
-                    else if (choice == 2)
-                    {
-                        //TODO Gamble
                     }
                     else if (choice == 0)
                     {

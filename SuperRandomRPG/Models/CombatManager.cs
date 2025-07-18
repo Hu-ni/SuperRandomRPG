@@ -1,6 +1,7 @@
 using SuperRandomRPG.Models;
 using System;
 using System.Collections.Generic;
+using System.Formats.Tar;
 using System.Threading;
 
 
@@ -18,14 +19,14 @@ namespace Team_SRRPG.Model
         }
         public CombatResult StartCombat()
         {
-            int originalDefense = _player.TotalDefense;
-            int originalLuck = _player.TotalLuck;
             while (_monsters.Any(m => m.Status.Health > 0) && _player.Health > 0)
             {
                 DisplayCombatStatus();
                 CombatResult? turnResult = PlayerTurn();
                 if (turnResult == CombatResult.Escaped)
                 {
+                    _player.TempLuckBoost = 0;
+                    _player.TempDefenseBoost = 0;
                     return CombatResult.Escaped;
                 }
 
@@ -38,13 +39,22 @@ namespace Team_SRRPG.Model
                     _player.Experience += totalExp;
                     _player.Gold += totalGold;
                     Console.WriteLine($"\n획득 보상: EXP +{totalExp}, Gold +{totalGold}");
+                    CheckLevelUp();
                     Thread.Sleep(2000);
+                    _player.TempLuckBoost = 0;
+                    _player.TempDefenseBoost = 0;
                     return CombatResult.Victory;
                 }
-
                 MonsterTurn();
             }
             return CombatResult.Defeat;
+        }
+        private void CheckLevelUp()
+        {
+            if (_player.Experience >= _player.Level * 50)
+            {
+                _player.LevelUp();
+            }
         }
         private void DisplayCombatStatus()
         {
@@ -143,7 +153,7 @@ namespace Team_SRRPG.Model
 
                     if (totalDamage <= 0)
                     {
-                        Console.WriteLine($"\n{_player.Name}의 공격이 {target.Name}에게 닿지 않았습니다!");
+                        Console.WriteLine($"\n{_player.Name}의 공격이 너무 약해서 {target.Name}에게 닿지 않았습니다!");
                     }
                     else
                     {
@@ -370,10 +380,12 @@ namespace Team_SRRPG.Model
                 {
                     Monster target = _monsters[choice - 1];
                     int baseDamage = skill.Power + (_player.TotalAttack / 2);
+                    int beforehp = target.Status.Health;
                     Console.Clear();
                     int damage = CalculateDamage(baseDamage, _player.TotalLuck);
                     target.Status.Health = Math.Max(target.Status.Health - damage, 0);
                     Console.WriteLine($"\n{_player.Name}이(가) {skill.Name}을(를) 사용하여 {target.Name}에게 {damage}의 피해를 입혔습니다!");
+                    Console.WriteLine($"{target.Name}: {beforehp} --> {target.Status.Health}");
                     Thread.Sleep(3000);
                     break;
                 }
@@ -413,10 +425,10 @@ namespace Team_SRRPG.Model
             }
             else if (skill.Type == SkillType.Luck)
             {
-                int beforeLuck = _player.Luck;
+                int beforeLuck = _player.TotalLuck;
                 _player.TempLuckBoost += boostAmount;
                 Console.WriteLine($"{_player.Name}의 행운이 {Math.Abs(boostAmount)}만큼 {(boostAmount > 0 ? "증가" : "감소")}했습니다!");
-                Console.WriteLine($"{beforeLuck} --> {_player.Luck}");
+                Console.WriteLine($"{beforeLuck} --> {_player.TotalLuck}");
             }
 
             Thread.Sleep(3000);
@@ -599,7 +611,6 @@ namespace Team_SRRPG.Model
                     if (roll == 1)
                     {
                         Console.WriteLine("대실패! 공격이 빗나가고 골드만 날렸습니다...");
-                        _player.Gold -= goldInvestment;
                         Thread.Sleep(3000);
                         return;
                     }
@@ -613,7 +624,7 @@ namespace Team_SRRPG.Model
                         multiplier = roll / 10.0;
                     }
 
-                    int baseDamage = skill.Power * goldInvestment;
+                    int baseDamage = skill.Power * goldInvestment/10;
                     int finalDamage = (int)Math.Round(baseDamage * multiplier);
                     int beforeHP = target.Status.Health;
 
@@ -634,7 +645,5 @@ namespace Team_SRRPG.Model
                 }
             }
         }
-
-
     }
 }
