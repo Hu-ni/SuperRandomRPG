@@ -17,7 +17,7 @@ namespace SuperRandomRPG
         private DungeonManager _dungeonManager;
         private Inventory _inventory;
         private Shop _shop;
-
+        private Village _village;
         private bool playerDataExists = false;
 
         private bool StartMenu()
@@ -126,10 +126,11 @@ namespace SuperRandomRPG
                         _player.OpenStatus(_inventory); // 플레이어 상태창 출력  
                         break;
                     case 2:
+                        _village.OpenVillage(_player);
                         // 2번 화면 생성  
                         break;
                     case 3:
-                        _inventory.OpenInventory();
+                        _inventory.OpenInventory(_player);
                         // 3번 화면 생성  
                         break;
                     case 4:

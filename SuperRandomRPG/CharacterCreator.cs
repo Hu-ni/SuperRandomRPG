@@ -20,7 +20,7 @@ public static class CharacterCreator
             Console.WriteLine("당신의 직업은 무엇입니까?");
             Console.WriteLine("1. 전사");
             Console.WriteLine("2. 마법사");
-            Console.WriteLine("3. 궁사");
+            Console.WriteLine("3. 궁수");
             Console.WriteLine("4. 도박꾼");
 
             string input = Console.ReadLine();
