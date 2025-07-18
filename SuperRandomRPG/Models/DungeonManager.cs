@@ -217,7 +217,7 @@ namespace Team_SRRPG.Model
             Console.WriteLine();
             Console.WriteLine("|__________|=|__________|=|__________|\n\n");
             Console.WriteLine($"[{dungeonName}] {currentRoom + 1}/{maxRooms} 방 탐색 중...");
-            Console.WriteLine("1. 다음 방으로 이동\n2. 아이템 사용하기\n3. 상태보기");
+            Console.WriteLine("1. 다음 방으로 이동\n2. 상태보기");
         }
 
         private void EnterDungeon(Dungeon dungeon)
@@ -246,6 +246,22 @@ namespace Team_SRRPG.Model
                     {
                         Console.WriteLine("전투에서 패배했습니다... 당신은 죽었습니다.");
                         Thread.Sleep(2000);
+                        const string SaveFilePath = "Player.xml";
+
+                        if (File.Exists(SaveFilePath))
+                        {
+                            File.Delete(SaveFilePath);
+                            Console.WriteLine("세이브 파일이 삭제되었습니다.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("세이브 파일이 존재하지 않아 삭제할 수 없습니다.");
+                        }
+
+                        Thread.Sleep(1500);
+                        Console.WriteLine("게임을 종료합니다...");
+                        Thread.Sleep(2000);
+                        Environment.Exit(0); // 💥 End game
                         return;
                     }
                     else if (result == CombatResult.Escaped)
@@ -257,12 +273,6 @@ namespace Team_SRRPG.Model
                     currentRoom++;
                 }
                 else if (input == "2")
-                {
-                    Console.Clear();
-                    // _player.ShowItems(); Not yet Done
-                    Console.ReadLine();
-                }
-                else if (input == "3")
                 {
                     Console.Clear();
                     _player.OpenStatus();
