@@ -61,6 +61,7 @@ namespace Team_SRRPG.Model
             Console.Clear();
             Console.WriteLine("========== 전투 ==========");
             Console.WriteLine($"{_player.Name} HP: {_player.Health}/{_player.Status.Health}\n");
+            Console.WriteLine($"Mp: {_player.Mana}/{_player.Status.Mana}");
 
             Console.WriteLine(">> 적 목록:");
             for (int i = 0; i < _monsters.Count; i++)

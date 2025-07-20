@@ -37,7 +37,7 @@ namespace Team_SRRPG.Model
                             BaseHealth = 12, HealthPerLvl = 5,
                             BaseAttack = 6, AttackPerLvl = 2,
                             BaseDefense = 4, DefensePerLvl = 1,
-                            Reward = new Reward{ Exp = 10, Money = 15 }
+                            Reward = new Reward{ Exp = 10, Money = 150 }
                         },
                         new Monster
                         {
@@ -45,7 +45,7 @@ namespace Team_SRRPG.Model
                             BaseHealth = 10, HealthPerLvl = 4,
                             BaseAttack = 8, AttackPerLvl = 3,
                             BaseDefense = 2, DefensePerLvl = 0,
-                            Reward = new Reward { Exp = 10, Money = 15 }
+                            Reward = new Reward { Exp = 10, Money = 150 }
                         },
                         new Monster
                         {
@@ -53,10 +53,10 @@ namespace Team_SRRPG.Model
                             BaseHealth = 15, HealthPerLvl = 6,
                             BaseAttack = 7, AttackPerLvl = 2,
                             BaseDefense = 6, DefensePerLvl = 2,
-                            Reward = new Reward {Exp = 15, Money = 20 }
+                            Reward = new Reward {Exp = 15, Money = 200 }
                         }
                     },
-                    Reward = new Reward { Exp = 50, Money = 100 }
+                    Reward = new Reward { Exp = 1000, Money = 1000 }
                 },
                 new Dungeon
                 {
@@ -74,7 +74,7 @@ namespace Team_SRRPG.Model
                             BaseHealth = 20, HealthPerLvl = 6,
                             BaseAttack = 6, AttackPerLvl = 2,
                             BaseDefense = 3, DefensePerLvl = 1,
-                            Reward = new Reward{ Exp = 20, Money = 50 }
+                            Reward = new Reward{ Exp = 20, Money = 250 }
                         },
                         new Monster
                         {
@@ -82,7 +82,7 @@ namespace Team_SRRPG.Model
                             BaseHealth = 30, HealthPerLvl = 3,
                             BaseAttack = 10, AttackPerLvl = 2,
                             BaseDefense = 2, DefensePerLvl = 1,
-                            Reward = new Reward{ Exp = 20, Money = 25 }
+                            Reward = new Reward{ Exp = 20, Money = 400 }
                         },
                         new Monster
                         {
@@ -90,9 +90,10 @@ namespace Team_SRRPG.Model
                             BaseHealth = 30, HealthPerLvl = 5,
                             BaseAttack = 11, AttackPerLvl = 3,
                             BaseDefense = 5, DefensePerLvl = 2,
-                            Reward = new Reward{ Exp = 50, Money = 20 }
+                            Reward = new Reward{ Exp = 50, Money = 450 }
                         }
-                    }
+                    },
+                    Reward = new Reward { Exp = 2500, Money = 5000 }
                 },
                 new Dungeon
                 {
@@ -110,7 +111,7 @@ namespace Team_SRRPG.Model
                             BaseHealth = 30, HealthPerLvl = 10,
                             BaseAttack = 15, AttackPerLvl = 3,
                             BaseDefense = 15, DefensePerLvl = 3,
-                            Reward = new Reward{ Exp = 100, Money = 200 }
+                            Reward = new Reward{ Exp = 100, Money = 4000 }
                         },
                         new Monster
                         {
@@ -118,7 +119,7 @@ namespace Team_SRRPG.Model
                             BaseHealth = 30, HealthPerLvl = 10,
                             BaseAttack = 15, AttackPerLvl = 3,
                             BaseDefense = 15, DefensePerLvl = 3,
-                            Reward = new Reward{ Exp = 100, Money = 200 }
+                            Reward = new Reward{ Exp = 100, Money = 4000 }
                         },
                         new Monster
                         {
@@ -126,7 +127,7 @@ namespace Team_SRRPG.Model
                             BaseHealth = 30, HealthPerLvl = 10,
                             BaseAttack = 15, AttackPerLvl = 3,
                             BaseDefense = 15, DefensePerLvl = 3,
-                            Reward = new Reward{ Exp = 100, Money = 200 }
+                            Reward = new Reward{ Exp = 100, Money = 4000 }
                         },
                         new Monster
                         {
@@ -134,7 +135,7 @@ namespace Team_SRRPG.Model
                             BaseHealth = 30, HealthPerLvl = 10,
                             BaseAttack = 15, AttackPerLvl = 3,
                             BaseDefense = 15, DefensePerLvl = 3,
-                            Reward = new Reward{ Exp = 100, Money = 200 }
+                            Reward = new Reward{ Exp = 100, Money = 4000 }
                         },
                         new Monster
                         {
@@ -142,9 +143,10 @@ namespace Team_SRRPG.Model
                             BaseHealth = 30, HealthPerLvl = 10,
                             BaseAttack = 15, AttackPerLvl = 3,
                             BaseDefense = 15, DefensePerLvl = 3,
-                            Reward = new Reward{ Exp = 100, Money = 200 }
+                            Reward = new Reward{ Exp = 100, Money = 4000 }
                         }
-                    }
+                    },
+                    Reward = new Reward { Exp = 3000, Money = 9999 }
                 }
             };
         }
