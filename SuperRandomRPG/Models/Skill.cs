@@ -137,24 +137,21 @@ namespace SuperRandomRPG.Models
                 Power = 10
             }
         };
-        Dictionary<string, List<Skill>> skillList = new Dictionary<string, List<Skill>>();
+
+
+        Dictionary<Job, List<Skill>> skillList = new Dictionary<Job, List<Skill>>();
         public SkillRepository()
         {
-            skillList.Add("Warrior", WarriorSkill);
-            skillList.Add("Mage", MageSkill);
-            skillList.Add("Archer", Archer);
-            skillList.Add("Gambler", Gambler);
+            skillList.Add(Job.Warrior, WarriorSkill);
+            skillList.Add(Job.Mage, MageSkill);
+            skillList.Add(Job.Archer, Archer);
+            skillList.Add(Job.Gambler, Gambler);
         }
+
+
         public List<Skill> GetSkillsByJob(Job job)
         {
-            return job switch
-            {
-                Job.Warrior => WarriorSkill,
-                Job.Mage => MageSkill,
-                Job.Archer => Archer,
-                Job.Gambler => Gambler,
-                _ => new List<Skill>()
-            };
+            return skillList[job];
         }
     }
 }

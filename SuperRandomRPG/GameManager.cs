@@ -110,6 +110,7 @@ namespace SuperRandomRPG
         {
             if (!StartMenu())
             {
+                if(!ReStart())
                 Console.WriteLine("게임 종료");
                 return;
             }
@@ -170,10 +171,46 @@ namespace SuperRandomRPG
         /// </summary>
         public void Save()
         {
-
-
             XmlSerializerHelper.Serialize(new SaveFileDTO { Player = _player, /*Inventory = _inventory,*/ SoldIds = _shop.GetSoldItemIds()},
                         ".\\Data\\Player.xml");
+        }
+
+        private bool ReStart()
+        {
+            Random rand = new Random();
+
+            Console.Clear();
+            Console.WriteLine("GameOver");
+            Console.WriteLine("이유: 시작하기에 실패하기");
+            Console.WriteLine();
+            Console.WriteLine("1.다시하기");
+            Console.WriteLine("2.종료하기");
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+
+                if (input == "1")
+                {
+                        Console.Clear();
+                        Console.WriteLine("게임 시작");
+                        return true;
+
+                }
+                else if (input == "2")
+                {
+                    if (rand.NextDouble() < 0.5)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("게임 종료");
+                        return false;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 입력입니다.");
+                }
+            }
         }
     }
 }
