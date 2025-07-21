@@ -41,23 +41,24 @@ namespace SuperRandomRPG.Models
                 Console.WriteLine("어이쿠 손이 미끄러졌네...\n인벤토리를 열다가 골드를 흘렸습니다. - 50 Gold");
                 player.Gold -= 50;
             }
-            Console.WriteLine("인벤토리 창입니다. 0을 눌러 나갈 수 있습니다.");
-            Console.WriteLine("아이템 목록:");
-            for (int i = 0; i < Items.Count; i++)
-            {
-                var item = Items[i];
-                if(item.isEquiped)
-                {
-                    Console.WriteLine($"{i + 1}. [E]{item.Name} - {item.Description}");
-                }
-                else 
-                {
-                    Console.WriteLine($"{i + 1}. {item.Name} - {item.Description}");
-                }          
-            }
-            Console.WriteLine("0. 나가기");
             while (true)
             {
+                Console.WriteLine("인벤토리 창입니다. 0을 눌러 나갈 수 있습니다.");
+                Console.WriteLine("아이템 목록:");
+                for (int i = 0; i < Items.Count; i++)
+                {
+                    var item = Items[i];
+                    string displayName = item.Name.Replace(" (구매완료)", "");
+                    if (item.isEquiped)
+                    {
+                        Console.WriteLine($"{i + 1}. [E]{displayName} - {item.Description}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{i + 1}. {displayName} - {item.Description}");
+                    }          
+                }
+                Console.WriteLine("0. 나가기");
                 int input = int.Parse(Console.ReadLine());
                 if (input == 0)
                 {
@@ -73,6 +74,7 @@ namespace SuperRandomRPG.Models
                     Console.WriteLine("잘못된 입력입니다. 다시 입력해주세요.");
                 }
             }
+
         }
 
         //아이템 목록에서 인덱스-1로 아이템을 선택하면 bool값을 true로 바꾼다.
@@ -89,10 +91,18 @@ namespace SuperRandomRPG.Models
                 if (Items[EquipIndex - 1].isEquiped)
                 {
                     Items[EquipIndex - 1].isEquiped = false;
+                    Console.Clear();
+                    Console.WriteLine($"{Items[EquipIndex - 1].Name}을 해제했습니다");
+                    Thread.Sleep(1000);
+                    Console.Clear();
                 }
-                else if(!Items[EquipIndex - 1].isEquiped)
+                else if (!Items[EquipIndex - 1].isEquiped)
                 {
-                    Items[EquipIndex - 1].isEquiped = true; // 아이템을 장착 상태로 변경
+                    Items[EquipIndex - 1].isEquiped = true;
+                    Console.Clear();
+                    Console.WriteLine($"{Items[EquipIndex - 1].Name}을 장착했습니다");
+                    Thread.Sleep(1000);
+                    Console.Clear();
                 }
             }
         }
